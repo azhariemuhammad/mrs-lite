@@ -13,4 +13,5 @@ module.exports = {
 			resolve: `gatsby-plugin-material-ui`,
 		},
 	],
+	pathPrefix: '/mrs-lite',
 }
