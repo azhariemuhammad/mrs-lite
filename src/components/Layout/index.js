@@ -4,8 +4,9 @@ import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Hidden from '@material-ui/core/Hidden'
 import Navigator from 'components/Navigator'
-
+import { MedicalRecordsProvider } from 'context/MedicalRecordsContext'
 import Header from 'components/Header'
+import { ToasterProvider } from 'context/ToasterContext'
 
 let theme = createMuiTheme({
 	typography: {
@@ -153,26 +154,31 @@ function Layout({ location, title, children, classes }) {
 
 	return (
 		<MuiThemeProvider theme={theme}>
-			<div className={classes.root}>
-				<CssBaseline />
-				<nav className={classes.drawer}>
-					<Hidden smUp implementation="js">
-						<Navigator
-							PaperProps={{ style: { width: drawerWidth } }}
-							variant="temporary"
-							open={mobileOpen}
-							onClose={() => setMobileOpen(!mobileOpen)}
-						/>
-					</Hidden>
-					<Hidden xsDown implementation="css">
-						<Navigator PaperProps={{ style: { width: drawerWidth } }} location={location} />
-					</Hidden>
-				</nav>
-				<div className={classes.appContent}>
-					<Header onDrawerToggle={() => setMobileOpen(!mobileOpen)} title={title} />
-					<main className={classes.mainContent}>{children}</main>
-				</div>
-			</div>
+			<ToasterProvider>
+				<MedicalRecordsProvider>
+					<div className={classes.root}>
+						<CssBaseline />
+						<nav className={classes.drawer}>
+							<Hidden smUp implementation="js">
+								<Navigator
+									PaperProps={{ style: { width: drawerWidth } }}
+									variant="temporary"
+									open={mobileOpen}
+									onClose={() => setMobileOpen(!mobileOpen)}
+								/>
+							</Hidden>
+							<Hidden xsDown implementation="css">
+								<Navigator PaperProps={{ style: { width: drawerWidth } }} location={location} />
+							</Hidden>
+						</nav>
+						<div className={classes.appContent}>
+							<Header onDrawerToggle={() => setMobileOpen(!mobileOpen)} title={title} />
+
+							<main className={classes.mainContent}>{children}</main>
+						</div>
+					</div>
+				</MedicalRecordsProvider>
+			</ToasterProvider>
 		</MuiThemeProvider>
 	)
 }

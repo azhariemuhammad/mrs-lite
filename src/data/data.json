@@ -1,0 +1,18 @@
+{
+	"data": {
+		"result": [
+			{
+				"name": "Azharie",
+				"gender": "1",
+				"birthDate": "12/05/2020",
+				"address": "Jalan Kenangan",
+				"city": "Jakarta",
+				"phoneNumber": "082248467118",
+				"payer": "1",
+				"poli": 1,
+				"medRecoredNumber": "RM.0001",
+				"chiefComplaint": "Sakit Perut"
+			}
+		]
+	}
+}

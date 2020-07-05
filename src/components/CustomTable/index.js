@@ -1,0 +1,118 @@
+import React, { useState } from 'react'
+
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
+import { lighten, makeStyles } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
+import Checkbox from '@material-ui/core/Checkbox'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+
+import EnhancedTableToolbar from './EnhancedTableToolbar'
+import EnhancedTableHead from './EnhancedTableHead'
+
+const useStyles = makeStyles(theme => ({
+	root: {
+		width: '100%',
+	},
+	paper: {
+		width: '100%',
+		marginBottom: theme.spacing(2),
+	},
+	table: {
+		minWidth: 750,
+	},
+	visuallyHidden: {
+		border: 0,
+		clip: 'rect(0 0 0 0)',
+		height: 1,
+		margin: -1,
+		overflow: 'hidden',
+		padding: 0,
+		position: 'absolute',
+		top: 20,
+		width: 1,
+	},
+}))
+
+const CustomTable = ({ dataTable, headCells, tableCellsKey }) => {
+	const classes = useStyles()
+	const [selected, setSelected] = useState([])
+	const [order, setOrder] = useState('asc')
+	const [orderBy, setOrderBy] = useState('calories')
+	const [dense, setDense] = useState(false)
+	console.log(dataTable[0])
+	console.log(tableCellsKey)
+	return (
+		<div className={classes.root}>
+			<Paper className={classes.paper}>
+				<EnhancedTableToolbar numSelected={selected.length} />
+				<TableContainer>
+					<Table
+						className={classes.table}
+						aria-labelledby="tableTitle"
+						size={dense ? 'small' : 'medium'}
+						aria-label="enhanced table"
+					>
+						<EnhancedTableHead
+							classes={classes}
+							numSelected={selected.length}
+							order={order}
+							orderBy={orderBy}
+							onSelectAllClick={() => {}}
+							onRequestSort={() => {}}
+							rowCount={dataTable.length}
+							headCells={headCells}
+						/>
+						<TableBody>
+							{dataTable.map((row, idx) => {
+								const labelId = `enhanced-table-checkbox-${idx}`
+								return (
+									<TableRow
+										hover
+										onClick={() => {}}
+										role="checkbox"
+										aria-checked=""
+										tabIndex={-1}
+										key={row.name}
+										selected={false}
+									>
+										<TableCell padding="checkbox">
+											<Checkbox checked={false} inputProps={{ 'aria-labelledby': labelId }} />
+										</TableCell>
+										{tableCellsKey.map(cellKey => (
+											<TableCell align="left" key={cellKey}>
+												{row[cellKey]}
+											</TableCell>
+										))}
+										<TableCell padding="checkbox">
+											{/* <FormControl variant="outlined">
+												<Select label="Age" value="Atur">
+													<MenuItem value="">
+														<em>None</em>
+													</MenuItem>
+													<MenuItem value={10}>Ten</MenuItem>
+													<MenuItem value={20}>Twenty</MenuItem>
+													<MenuItem value={30}>Thirty</MenuItem>
+												</Select>
+											</FormControl> */}
+										</TableCell>
+									</TableRow>
+								)
+							})}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Paper>
+		</div>
+	)
+}
+
+export default CustomTable

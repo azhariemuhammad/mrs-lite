@@ -13,6 +13,7 @@ exports.onCreateWebpackConfig = ({ actions, stage }) => {
 			modules: [path.join(__dirname, 'src'), 'node_modules'],
 			alias: {
 				'~components': path.resolve(__dirname, 'src/components'),
+				'~context': path.resolve(__dirname, 'src/context'),
 				'~utils': path.resolve(__dirname, 'src/utils'),
 			},
 		},
