@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 
 import PropTypes from 'prop-types'
-import clsx from 'clsx'
-import { lighten, makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -10,10 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Checkbox from '@material-ui/core/Checkbox'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
-import InputLabel from '@material-ui/core/InputLabel'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@material-ui/core/Button'
 
 import EnhancedTableToolbar from './EnhancedTableToolbar'
 import EnhancedTableHead from './EnhancedTableHead'
@@ -40,14 +36,22 @@ const useStyles = makeStyles(theme => ({
 		top: 20,
 		width: 1,
 	},
+	headingText: {
+		lineHeight: '1.43',
+		color: 'rgba(49, 53, 59, 0.68)',
+		zIndex: 100,
+		fontSize: '0.875rem',
+		fontWeight: 700,
+	},
 }))
 
-const CustomTable = ({ dataTable, headCells, tableCellsKey }) => {
+const CustomTable = ({ dataTable, headCells, tableCellsKey, action }) => {
 	const classes = useStyles()
 	const [selected, setSelected] = useState([])
 	const [order, setOrder] = useState('asc')
 	const [orderBy, setOrderBy] = useState('calories')
 	const [dense, setDense] = useState(false)
+	const [actionMenu, setActionMenu] = useState('Atur')
 	console.log(dataTable[0])
 	console.log(tableCellsKey)
 	return (
@@ -92,17 +96,10 @@ const CustomTable = ({ dataTable, headCells, tableCellsKey }) => {
 												{row[cellKey]}
 											</TableCell>
 										))}
-										<TableCell padding="checkbox">
-											{/* <FormControl variant="outlined">
-												<Select label="Age" value="Atur">
-													<MenuItem value="">
-														<em>None</em>
-													</MenuItem>
-													<MenuItem value={10}>Ten</MenuItem>
-													<MenuItem value={20}>Twenty</MenuItem>
-													<MenuItem value={30}>Thirty</MenuItem>
-												</Select>
-											</FormControl> */}
+										<TableCell>
+											<Button variant="outlined" color="primary" onClick={action}>
+												Preview
+											</Button>
 										</TableCell>
 									</TableRow>
 								)

@@ -3,13 +3,13 @@
 		"result": [
 			{
 				"name": "Azharie",
-				"gender": "1",
+				"gender": "Laki-laki",
 				"birthDate": "12/05/2020",
 				"address": "Jalan Kenangan",
 				"city": "Jakarta",
 				"phoneNumber": "082248467118",
-				"payer": "1",
-				"poli": 1,
+				"payer": "BPJS",
+				"poli": "Poli Umum",
 				"medRecoredNumber": "RM.0001",
 				"chiefComplaint": "Sakit Perut"
 			}
