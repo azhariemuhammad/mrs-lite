@@ -42,6 +42,11 @@ const useStyles = makeStyles(theme => ({
 		border: '1px solid',
 		borderRadius: '50%',
 	},
+	gridColumns: {
+		display: 'grid',
+		gridTemplateColumns: '1fr 1fr',
+		padding: '8px 8px 12px 8px',
+	},
 }))
 
 const ModalPreviewPatient = ({ handleClose, open }) => {
@@ -78,19 +83,16 @@ const ModalPreviewPatient = ({ handleClose, open }) => {
 						<Paper elevation={1}>
 							<div style={{ textAlign: 'left', padding: '8px 8px 12px 8px' }}>Informasi Perawatan</div>
 							<div className={classes.textContent}>
-								<div>
+								<div className={classes.gridColumns}>
 									<span>Klinik</span>
 									<span>Poli Umum</span>
-								</div>
-								<div>
+
 									<span>Dokter Penanggung Jawab</span>
 									<span>dr. Covid 19</span>
-								</div>
-								<div>
+
 									<span>Jaminan</span>
 									<span>BPJS</span>
-								</div>
-								<div>
+
 									<span>Tanggal Kunjungan</span>
 									<span>04 April 2012</span>
 								</div>

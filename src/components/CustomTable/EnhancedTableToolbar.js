@@ -9,11 +9,14 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import DeleteIcon from '@material-ui/icons/Delete'
 import FilterListIcon from '@material-ui/icons/FilterList'
+import Searchbar from 'components/Searchbar'
 
 const useToolbarStyles = makeStyles(theme => ({
 	root: {
 		paddingLeft: theme.spacing(2),
 		paddingRight: theme.spacing(1),
+		display: 'flex',
+		justifyContent: 'space-between',
 	},
 	highlight:
 		theme.palette.type === 'light'
@@ -27,6 +30,7 @@ const useToolbarStyles = makeStyles(theme => ({
 			  },
 	title: {
 		flex: '1 1 100%',
+		maxWidth: '400px',
 	},
 }))
 
@@ -40,15 +44,9 @@ const EnhancedTableToolbar = props => {
 				[classes.highlight]: numSelected > 0,
 			})}
 		>
-			{numSelected > 0 ? (
-				<Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-					{numSelected} selected
-				</Typography>
-			) : (
-				<Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-					Nutrition
-				</Typography>
-			)}
+			<Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+				<Searchbar />
+			</Typography>
 
 			{numSelected > 0 ? (
 				<Tooltip title="Delete">

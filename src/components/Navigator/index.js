@@ -20,6 +20,7 @@ const categories = [
 		children: [
 			{ id: 'Tambah Pasien', icon: <DnsRoundedIcon />, page: 'register' },
 			{ id: 'Daftar Pasien', icon: <PeopleIcon />, page: 'patient-list' },
+			{ id: 'Vitals sign', icon: <PeopleIcon />, page: 'vitals' },
 		],
 	},
 ]

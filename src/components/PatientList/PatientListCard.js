@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react'
 
 import { useStyles } from './styles'
 import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
+import Searchbar from 'components/Searchbar'
 import CustomTable from '../CustomTable'
 import ModalPreviewPatient from './ModalPreviewPatient'
 
