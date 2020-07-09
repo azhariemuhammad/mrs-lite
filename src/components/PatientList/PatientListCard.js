@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
-// import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
+import { MedicalRecordsContext } from 'context/MedicalRecordsContext';
 
+import CustomTable from 'components/CustomTable';
 import ModalPreviewPatient from './ModalPreviewPatient';
 
 const PatientListCard = () => {
     const [openModal, setOpenModal] = useState(false);
-    // const { dataPatients, handleRegisterPatients } = useContext(MedicalRecordsContext)
-    const dataPatients = [];
+    const { dataPatients } = useContext(MedicalRecordsContext);
 
     const headCells = [
         {

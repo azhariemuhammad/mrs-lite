@@ -24,3 +24,8 @@ export const MedicalRecordsProvider = ({ children }) => {
 MedicalRecordsProvider.propTypes = {
     children: node.isRequired
 };
+
+// eslint-disable-next-line react/prop-types
+export default ({ element }) => (
+    <MedicalRecordsProvider>{element}</MedicalRecordsProvider>
+);

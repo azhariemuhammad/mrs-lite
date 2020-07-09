@@ -12,7 +12,7 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Radio from '@material-ui/core/Radio';
 import { navigate } from '@reach/router';
 import { ToasterContext } from 'context/ToasterContext';
-// import { MedicalRecordsContext } from 'context/MedicalRecordsContext';
+import { MedicalRecordsContext } from 'context/MedicalRecordsContext';
 
 import { useStyles } from './styles';
 import Toaster from '../Toaster';
@@ -29,11 +29,10 @@ const FormRegisterPatient = () => {
     const [poli, setPoli] = useState(null);
     const [medRecoredNumber, setMedrecordNumber] = useState(null);
     const [chiefComplaint, setChiefComplaint] = useState('');
-    // const { dataPatients, handleRegisterPatients } = useContext(
-    //     MedicalRecordsContext
-    // );
-    const dataPatients = [];
-    const handleRegisterPatients = () => {};
+    const { dataPatients, handleRegisterPatients } = useContext(
+        MedicalRecordsContext
+    );
+
     const { setOpen } = useContext(ToasterContext);
     const [message, setMessageToaster] = useState('');
 
