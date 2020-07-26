@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bpjs_patients",
+  "info": {
+    "name": "bpjs_patient"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "bpjs_id": {
+      "type": "string"
+    },
+    "patient_id": {
+      "model": "patient"
+    }
+  }
+}

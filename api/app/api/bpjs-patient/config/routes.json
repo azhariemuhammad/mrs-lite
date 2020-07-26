@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/bpjs-patients",
+      "handler": "bpjs-patient.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/bpjs-patients/count",
+      "handler": "bpjs-patient.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/bpjs-patients/:id",
+      "handler": "bpjs-patient.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/bpjs-patients",
+      "handler": "bpjs-patient.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/bpjs-patients/:id",
+      "handler": "bpjs-patient.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/bpjs-patients/:id",
+      "handler": "bpjs-patient.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "patients",
+  "info": {
+    "name": "patient"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "sex": {
+      "type": "integer"
+    },
+    "street_name": {
+      "type": "string"
+    },
+    "district": {
+      "type": "string"
+    },
+    "birth_of_date": {
+      "type": "date"
+    },
+    "ktp_id": {
+      "type": "string"
+    },
+    "degree": {
+      "type": "integer"
+    },
+    "city": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "staff_providers",
+  "info": {
+    "name": "staff_provider"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "staff_type_id": {
+      "model": "staff-type"
+    },
+    "provider_id": {
+      "model": "provider"
+    },
+    "user_id": {
+      "plugin": "users-permissions",
+      "model": "user"
+    }
+  }
+}

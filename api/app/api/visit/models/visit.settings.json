@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "visits",
+  "info": {
+    "name": "visit"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "department_id": {
+      "model": "department"
+    },
+    "staff_provider_id": {
+      "model": "staff-provider"
+    },
+    "patient_id": {
+      "model": "patient"
+    },
+    "date_visit": {
+      "type": "datetime"
+    },
+    "chief_complain": {
+      "type": "text"
+    },
+    "payer": {
+      "type": "integer"
+    }
+  }
+}
