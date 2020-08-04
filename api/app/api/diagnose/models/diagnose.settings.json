@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "diagnoses",
+  "info": {
+    "name": "diagnose"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "icd": {
+      "model": "icd"
+    },
+    "medical_records_detail": {
+      "model": "medical-records-detail"
+    }
+  }
+}

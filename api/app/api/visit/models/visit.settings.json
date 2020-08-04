@@ -24,8 +24,11 @@
     "chief_complain": {
       "type": "text"
     },
-    "payer": {
+    "status_visit": {
       "type": "integer"
+    },
+    "payer": {
+      "model": "payer"
     }
   }
 }

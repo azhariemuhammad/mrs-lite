@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/medical-records-details",
+      "handler": "medical-records-detail.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/medical-records-details/count",
+      "handler": "medical-records-detail.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/medical-records-details/:id",
+      "handler": "medical-records-detail.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/medical-records-details",
+      "handler": "medical-records-detail.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/medical-records-details/:id",
+      "handler": "medical-records-detail.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/medical-records-details/:id",
+      "handler": "medical-records-detail.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

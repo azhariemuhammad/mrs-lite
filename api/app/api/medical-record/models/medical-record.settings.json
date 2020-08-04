@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "medical_records",
+  "info": {
+    "name": "medical_record"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "mr_code": {
+      "type": "string"
+    },
+    "patient_id": {
+      "model": "patient"
+    }
+  }
+}

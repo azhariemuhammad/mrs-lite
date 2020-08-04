@@ -10,9 +10,9 @@ module.exports = ({ env }) => ({
         database: env('DATABASE_NAME', 'plasmox'),
         username: env('DATABASE_USERNAME', 'plasmox'),
         password: env('DATABASE_PASSWORD', 'plasmox123'),
-        ssl: env.bool('DATABASE_SSL', false),
+        ssl: env.bool('DATABASE_SSL', false)
       },
       options: {}
-    },
-  },
-});
+    }
+  }
+})

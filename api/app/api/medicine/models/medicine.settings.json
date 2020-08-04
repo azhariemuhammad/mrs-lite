@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "medicines",
+  "info": {
+    "name": "medicine"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "integer"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "how_to_use": {
+      "type": "text"
+    },
+    "medical_records_detail_id": {
+      "model": "medical-records-detail"
+    }
+  }
+}

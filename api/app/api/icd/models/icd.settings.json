@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "icds",
+  "info": {
+    "name": "icd"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    }
+  }
+}

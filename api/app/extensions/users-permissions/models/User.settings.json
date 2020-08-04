@@ -52,6 +52,14 @@
       "via": "users",
       "plugin": "users-permissions",
       "configurable": false
+    },
+    "admin_layout": {
+      "type": "enumeration",
+      "enum": [
+        "admin",
+        "doctor"
+      ],
+      "required": true
     }
   }
 }
