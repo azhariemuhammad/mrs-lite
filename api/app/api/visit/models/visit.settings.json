@@ -19,16 +19,17 @@
       "model": "patient"
     },
     "date_visit": {
-      "type": "datetime"
+      "type": "datetime",
+      "required": true
     },
     "chief_complain": {
       "type": "text"
     },
-    "status_visit": {
-      "type": "integer"
-    },
     "payer": {
       "model": "payer"
+    },
+    "status_visit": {
+      "model": "status-visit"
     }
   }
 }

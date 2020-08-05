@@ -28,7 +28,9 @@
       "type": "date"
     },
     "ktp_id": {
-      "type": "string"
+      "type": "string",
+      "required": false,
+      "unique": true
     },
     "degree": {
       "type": "integer"
