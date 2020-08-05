@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/admin-layouts",
+      "handler": "admin-layout.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/admin-layouts/count",
+      "handler": "admin-layout.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/admin-layouts/:id",
+      "handler": "admin-layout.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/admin-layouts",
+      "handler": "admin-layout.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/admin-layouts/:id",
+      "handler": "admin-layout.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/admin-layouts/:id",
+      "handler": "admin-layout.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

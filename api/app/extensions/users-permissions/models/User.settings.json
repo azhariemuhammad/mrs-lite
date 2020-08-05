@@ -54,12 +54,7 @@
       "configurable": false
     },
     "admin_layout": {
-      "type": "enumeration",
-      "enum": [
-        "admin",
-        "doctor"
-      ],
-      "required": true
+      "model": "admin-layout"
     }
   }
 }
