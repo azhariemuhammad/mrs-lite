@@ -1,7 +1,3 @@
-/**
- * Read the documentation (https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers)
- * to customize this controller
- */
 const { sanitizeEntity } = require('strapi-utils')
 
 module.exports = {
@@ -9,7 +5,14 @@ module.exports = {
     return strapi.services.patient.search(ctx.query)
   },
   create: async ctx => {
-    const entity = await strapi.services.patient.add(ctx.request.body)
+    const { body } = ctx.request
+
+    const entity = await strapi.services.patient.add(body)
+    await strapi.services['medical-record'].add({
+      mr_code: body.mr_code,
+      patient_id: entity.id
+    })
+
     return sanitizeEntity(entity, { model: strapi.models.patient })
   }
 }

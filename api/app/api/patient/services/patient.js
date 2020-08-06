@@ -1,10 +1,3 @@
-/**
- * Read the documentation (https://strapi.io/documentation/v3.x/concepts/services.html#core-services)
- * to customize this service
- */
-
-const patient = require('../controllers/patient')
-
 module.exports = {
   search: async params => {
     const column = [
@@ -37,7 +30,28 @@ module.exports = {
     return []
   },
   add: async values => {
-    console.log({ values })
-    return strapi.query('patient').create(values)
+    const {
+      first_name,
+      last_name,
+      sex,
+      street_name,
+      district,
+      ktp_id,
+      degree,
+      city,
+      phone
+    } = values
+
+    return strapi.query('patient').create({
+      first_name,
+      last_name,
+      sex,
+      street_name,
+      district,
+      ktp_id,
+      degree,
+      city,
+      phone
+    })
   }
 }

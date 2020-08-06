@@ -13,6 +13,7 @@
       "type": "string"
     },
     "patient_id": {
+      "unique": true,
       "model": "patient"
     }
   }
