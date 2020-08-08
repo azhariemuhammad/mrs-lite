@@ -3,6 +3,14 @@
     {
       "method": "GET",
       "path": "/patients",
+      "handler": "patient.search",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/all-patients",
       "handler": "patient.find",
       "config": {
         "policies": []

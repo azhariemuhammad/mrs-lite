@@ -10,6 +10,14 @@ module.exports = {
       'street_name',
       'phone'
     ]
+    const val = {}
+    if (params.first_name) {
+      val.first_name = params.first_name
+    }
+    if (params.ktp_id) {
+      val.ktp_id = params.ktp_id
+    }
+
     const result = await strapi
       .query('patient')
       .model.query(qb => {
@@ -20,11 +28,10 @@ module.exports = {
             '=',
             'medical_records.patient_id'
           )
-          .where({ ...params })
+          .where(val)
       })
       .fetch()
     if (result) {
-      console.log({ result })
       return result.toJSON()
     }
     return []

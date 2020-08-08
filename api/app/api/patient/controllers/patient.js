@@ -1,8 +1,8 @@
 const { sanitizeEntity } = require('strapi-utils')
 
 module.exports = {
-  find: async ctx => {
-    return strapi.services.patient.search(ctx.query)
+  search: async ctx => {
+    return strapi.services.patient.search({ ...ctx.query })
   },
   create: async ctx => {
     const { body } = ctx.request
