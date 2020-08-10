@@ -1,15 +1,17 @@
+const column = [
+  'first_name',
+  'last_name',
+  'sex',
+  'birth_of_date',
+  'city',
+  'district',
+  'street_name',
+  'phone',
+  'mr_code'
+]
+
 module.exports = {
   search: async params => {
-    const column = [
-      'first_name',
-      'last_name',
-      'sex',
-      'birth_of_date',
-      'city',
-      'district',
-      'street_name',
-      'phone'
-    ]
     const val = {}
     if (params.first_name) {
       val.first_name = params.first_name
@@ -32,6 +34,7 @@ module.exports = {
       })
       .fetch()
     if (result) {
+      console.log(result)
       return result.toJSON()
     }
     return []

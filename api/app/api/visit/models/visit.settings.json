@@ -9,13 +9,13 @@
     "timestamps": true
   },
   "attributes": {
-    "department_id": {
+    "department": {
       "model": "department"
     },
-    "staff_provider_id": {
+    "staff_provider": {
       "model": "staff-provider"
     },
-    "patient_id": {
+    "patient": {
       "model": "patient"
     },
     "date_visit": {

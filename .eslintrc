@@ -1,19 +1,23 @@
 {
-    "extends": ["airbnb", "prettier", "prettier/react"],
-    "plugins": ["prettier"],
-    "parser": "babel-eslint",
-    "rules": {
-        "prettier/prettier": ["error"],
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "import/prefer-default-export": "off",
-        "react/jsx-props-no-spreading": "off"
-    },
-    "settings": {
-        "import/resolver": {
-            "alias": [
-                ["components", "./src/components"],
-                ["context", "./src/context"]
-            ]
-        }
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "plugins": ["prettier"],
+  "parser": "babel-eslint",
+  "rules": {
+    "prettier/prettier": ["error"],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    "prefer-destructuring": ["error", { "object": false, "array": false }]
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": [
+        ["components", "./src/components"],
+        ["context", "./src/context"]
+      ]
     }
+  },
+  "env": {
+    "browser": true
+  }
 }
