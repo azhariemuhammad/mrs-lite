@@ -40,6 +40,10 @@
     },
     "phone": {
       "type": "string"
+    },
+    "visits": {
+      "via": "patient",
+      "collection": "visit"
     }
   }
 }

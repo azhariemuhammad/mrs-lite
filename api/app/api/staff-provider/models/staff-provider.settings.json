@@ -18,6 +18,10 @@
     "user_id": {
       "plugin": "users-permissions",
       "model": "user"
+    },
+    "visits": {
+      "via": "staff_provider",
+      "collection": "visit"
     }
   }
 }

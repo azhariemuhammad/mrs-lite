@@ -13,10 +13,12 @@
       "model": "department"
     },
     "staff_provider": {
-      "model": "staff-provider"
+      "model": "staff-provider",
+      "via": "visits"
     },
     "patient": {
-      "model": "patient"
+      "model": "patient",
+      "via": "visits"
     },
     "date_visit": {
       "type": "datetime",

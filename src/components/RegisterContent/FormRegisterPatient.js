@@ -1,16 +1,13 @@
 import React, { useState, useContext } from 'react'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
 import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
 import Button from '@material-ui/core/Button'
 import RadioGroup from '@material-ui/core/RadioGroup'
-import TextField from '@material-ui/core/TextField'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import Radio from '@material-ui/core/Radio'
-import { navigate } from '@reach/router'
+import { useForm } from 'react-hook-form'
+
 import { ToasterContext } from 'context/ToasterContext'
 import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
 
@@ -20,44 +17,7 @@ import Textfield from '../Textfield'
 
 const FormRegisterPatient = () => {
   const classes = useStyles()
-  const patientFields = {
-    first_name: {
-      validator: 'required',
-      errors: ''
-    },
-    last_name: {
-      validator: 'required',
-      errors: ''
-    },
-    sex: {
-      validator: 'required',
-      errors: ''
-    },
-    street_name: {
-      validator: 'required',
-      errors: ''
-    },
-    district: {
-      validator: 'required',
-      errors: ''
-    },
-    ktp_id: {
-      validator: '',
-      errors: ''
-    },
-    degree: {
-      validator: '',
-      errors: ''
-    },
-    city: {
-      validator: 'required',
-      errors: ''
-    },
-    phone: {
-      validator: 'required',
-      errors: ''
-    }
-  }
+  const { register, handleSubmit, errors, control, watch } = useForm()
   const [registerNewPatient, setRegisterNewPatient] = useState({
     first_name: '',
     last_name: '',
@@ -70,16 +30,7 @@ const FormRegisterPatient = () => {
     phone: '',
     mr_code: ''
   })
-  const [errorsRegisterPatient, setErrorsRegisterPatient] = useState(
-    patientFields
-  )
-  const [errorsregisterNewVisit, setErrorsregisterNewVisit] = useState({
-    department: null,
-    staff_provider: null,
-    chief_complain: '',
-    payer: null,
-    status_visit: 1
-  })
+
   const [registerNewVisit, setRegisterNewVisit] = useState({
     department: null,
     staff_provider: null,
@@ -94,51 +45,17 @@ const FormRegisterPatient = () => {
   const { setOpen } = useContext(ToasterContext)
   const [message, setMessageToaster] = useState('')
 
-  console.log({ dataPatients })
+  console.log(watch('poli'))
 
   const handleOnChange = (text, inputName) => {
     setRegisterNewPatient({ ...registerNewPatient, ...{ [inputName]: text } })
-  }
-
-  const handleOnChangeVisit = (text, inputName) => {
-    setRegisterNewVisit({ ...registerNewVisit, ...{ [inputName]: text } })
   }
 
   const handleSetGender = e => {
     setRegisterNewPatient({ ...registerNewPatient, ...{ sex: e.target.value } })
   }
 
-  const handleSetPayer = e => {
-    setRegisterNewPatient({
-      ...registerNewPatient,
-      ...{ payer: e.target.value }
-    })
-  }
-  const handleSetPoli = e => {
-    const val = e.target.value
-    handleOnChangeVisit(val, 'department')
-  }
-
-  const handleValidation = (fields, patientData) => {
-    Object.keys(fields).map((item, idx) => {
-      if (fields[item].validator === 'required') {
-        const field = Object.keys(patientData)[idx]
-        if (patientData[item].length < 1) {
-          setErrorsRegisterPatient({
-            ...errorsRegisterPatient,
-            ...{
-              [Object.keys(fields)[idx]]: {
-                errors: 'Wajib diisi',
-                validator: 'required'
-              }
-            }
-          })
-        }
-      }
-      return false
-    })
-  }
-  const handleClickOnSave = () => {
+  const handleClickOnSave = data => {
     // const newDataPatient = {
     //   name,
     //   gender,
@@ -155,10 +72,9 @@ const FormRegisterPatient = () => {
     // setMessageToaster('Berhasil menyimpan data')
     // setOpen(true)
     // navigate('/patient-list')
-    handleValidation(patientFields, registerNewPatient)
+    console.log('masuk sini')
+    console.log({ data })
   }
-
-  console.log({ errorsRegisterPatient })
 
   return (
     <>
@@ -182,11 +98,8 @@ const FormRegisterPatient = () => {
                 inputName="first_name"
                 handler={(text, inputName) => handleOnChange(text, inputName)}
                 required
-                error
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.textInput
-                }}
+                errors={errors}
+                control={control}
               />
             </div>
             <div className={classes.flex}>
@@ -197,22 +110,18 @@ const FormRegisterPatient = () => {
                 inputName="last_name"
                 handler={(text, inputName) => handleOnChange(text, inputName)}
                 required
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.textInput
-                }}
+                errors={errors}
+                control={control}
               />
             </div>
             <div>
               <FormControl component="fieldset">
                 <div className={classes.flex}>
-                  <FormLabel className={classes.leftSide} component="legend">
-                    Gender
-                  </FormLabel>
+                  <div className={classes.leftSide}>Gender</div>
                   <RadioGroup
                     className={classes.radioGroup}
                     aria-label="gender"
-                    name="gender1"
+                    name="gender"
                     value={registerNewPatient.sex}
                     onChange={handleSetGender}
                   >
@@ -233,23 +142,19 @@ const FormRegisterPatient = () => {
             <div>
               <FormControl component="fieldset">
                 <div className={classes.flex}>
-                  <FormLabel className={classes.leftSide} component="legend">
-                    Tanggal Lahir
-                  </FormLabel>
+                  <div className={classes.leftSide}>Tanggal Lahir</div>
                   <Textfield
                     id="date"
                     type="date"
                     defaultValue={registerNewPatient.birth_date}
                     fullWidth
+                    errors={errors}
                     inputName="birth_date"
+                    control={control}
                     handler={(text, inputName) =>
                       handleOnChange(text, inputName)
                     }
                     className={classes.textField}
-                    InputProps={{
-                      disableUnderline: true,
-                      className: classes.textInput
-                    }}
                   />
                 </div>
               </FormControl>
@@ -271,11 +176,10 @@ const FormRegisterPatient = () => {
                 defaultValue={registerNewPatient.street_name}
                 fullWidth
                 inputName="street_name"
+                control={control}
+                errors={errors}
+                required
                 handler={(text, inputName) => handleOnChange(text, inputName)}
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.textInput
-                }}
               />
             </div>
             <div className={classes.flex}>
@@ -284,11 +188,10 @@ const FormRegisterPatient = () => {
                 defaultValue={registerNewPatient.city}
                 fullWidth
                 inputName="city"
+                control={control}
+                errors={errors}
+                required
                 handler={(text, inputName) => handleOnChange(text, inputName)}
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.textInput
-                }}
               />
             </div>
             <div className={classes.flex}>
@@ -298,11 +201,9 @@ const FormRegisterPatient = () => {
                 fullWidth
                 inputName="phone"
                 type="number"
-                handler={(text, inputName) => handleOnChange(text, inputName)}
-                InputProps={{
-                  disableUnderline: true,
-                  className: classes.textInput
-                }}
+                required
+                control={control}
+                errors={errors}
               />
             </div>
           </div>
@@ -324,50 +225,56 @@ const FormRegisterPatient = () => {
               fullWidth
               inputName="mr_code"
               type="text"
-              handler={(text, inputName) => handleOnChange(text, inputName)}
-              InputProps={{
-                disableUnderline: true,
-                className: classes.textInput
-              }}
+              control={control}
+              errors={errors}
+              required
             />
           </div>
           <FormControl component="fieldset">
             <div className={classes.flex}>
               <div className={classes.leftSide}>Jaminan</div>
-              <Select
-                value={registerNewVisit.payer}
-                onChange={handleSetPayer}
+              <select
+                name="payer"
+                className={classes.select}
+                defaultValue=""
+                ref={register}
                 style={{ width: '150px' }}
               >
-                <MenuItem value={1}>BPJS</MenuItem>
-                <MenuItem value={2}>UMUM</MenuItem>
-              </Select>
+                <option value={1}>BPJS</option>
+                <option value={2}>UMUM</option>
+              </select>
             </div>
           </FormControl>
           <div></div>
           <FormControl component="fieldset">
             <div className={classes.flex}>
               <div className={classes.leftSide}>Poli Tujuan</div>
-              <Select
-                value={
-                  registerNewVisit.department ? registerNewVisit.department : ''
-                }
-                onChange={handleSetPoli}
+              <select
+                name="poli"
+                className={classes.select}
+                defaultValue=""
+                ref={register}
                 style={{ width: '150px' }}
               >
-                <MenuItem value={1}>Poli Umum</MenuItem>
-                <MenuItem value={2}>Poli Gigi</MenuItem>
-              </Select>
+                <>
+                  {departments.map(item => {
+                    return (
+                      <option value={item.id} key={item.id}>
+                        {item.name}
+                      </option>
+                    )
+                  })}
+                </>
+              </select>
             </div>
           </FormControl>
           <div className={classes.flex}>
             <div className={classes.leftSide}>Keluhan</div>
             <TextareaAutosize
               aria-label="minimum height"
-              value={registerNewVisit.chief_complain}
-              onChange={e =>
-                handleOnChangeVisit(e.target.value, 'chief_complain')
-              }
+              name="chiefComplain"
+              defaultValue={registerNewVisit.chief_complain}
+              ref={register}
               rowsMin={3}
               className={classes.textArea}
             />
@@ -386,7 +293,7 @@ const FormRegisterPatient = () => {
           </Button>
           <Button
             variant="contained"
-            onClick={handleClickOnSave}
+            onClick={handleSubmit(handleClickOnSave)}
             color="primary"
           >
             Simpan

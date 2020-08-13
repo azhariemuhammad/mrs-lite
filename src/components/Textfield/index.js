@@ -1,51 +1,41 @@
-import React, { useState, memo, useEffect, useCallback } from 'react'
-import { string, func, bool, shape } from 'prop-types'
+import React, { memo } from 'react'
+import { Controller } from 'react-hook-form'
+import { string, bool, shape } from 'prop-types'
 import TextField from '@material-ui/core/TextField'
-
-import useDebounce from '../../hooks/useDebounce'
+import { useStyles } from './styles'
 
 const Textfield = ({
   defaultValue,
-  handler,
   fullWidth,
-  InputProps,
-  id,
   type,
   inputName,
-  errorText,
-  required,
-  error
+  control,
+  errors,
+  required
 }) => {
-  const [text, setText] = useState(defaultValue)
-
-  const handleOnChange = e => {
-    const val = e.target.value
-    setText(val)
-  }
-
-  const cb = useCallback(() => {
-    handler(text, inputName)
-  }, [text, inputName])
-
-  const debouncedText = useDebounce(cb, 200)
-
-  useEffect(() => {
-    if (debouncedText) {
-      cb()
-    }
-  }, [debouncedText])
-
+  const error = errors?.[inputName]
+  const isError = typeof error !== 'undefined'
+  const classes = useStyles({ isError })
   return (
-    <TextField
-      type={type}
-      value={text}
-      error={error}
-      required={required}
-      helperText={errorText}
-      fullWidth={fullWidth}
-      onChange={handleOnChange}
-      InputProps={InputProps}
+    <Controller
+      control={control}
       name={inputName}
+      as={
+        <TextField
+          fullWidth={fullWidth}
+          type={type}
+          InputProps={{
+            disableUnderline: true,
+            className: classes.textInput
+          }}
+          error={isError}
+          helperText={error?.message}
+        />
+      }
+      rules={{
+        ...(required && { required: 'Field tidak boleh kosong' })
+      }}
+      defaultValue={defaultValue}
     />
   )
 }
@@ -53,17 +43,16 @@ const Textfield = ({
 Textfield.defaultProps = {
   defaultValue: '',
   fullWidth: true,
-  id: '',
-  InputProps: {},
-  type: string
+  required: false,
+  type: 'text'
 }
 Textfield.propTypes = {
+  control: shape({}).isRequired,
   defaultValue: string,
+  errors: shape({}).isRequired,
   fullWidth: bool,
-  handler: func.isRequired,
-  id: string,
   inputName: string.isRequired,
-  InputProps: shape({}),
+  required: bool,
   type: string
 }
 
