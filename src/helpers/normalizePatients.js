@@ -6,7 +6,7 @@ export const normalizePatient = data => {
   const normalized = data.map(item => {
     console.log(item)
     return {
-      name: `${item.first_name} ${item.last_name}`,
+      name: `${item?.first_name || ''} ${item?.last_name ||}`,
       gender: SEX[item.sex] || '-',
       birthDate: item.birth_of_date,
       address: item.street_name,

@@ -2,7 +2,7 @@ const column = [
   'first_name',
   'last_name',
   'sex',
-  'birth_of_date',
+  'date_of_birth',
   'city',
   'district',
   'street_name',
@@ -49,7 +49,8 @@ module.exports = {
       ktp_id,
       degree,
       city,
-      phone
+      phone,
+      date_of_birth
     } = values
 
     return strapi.query('patient').create({
@@ -61,7 +62,8 @@ module.exports = {
       ktp_id,
       degree,
       city,
-      phone
+      phone,
+      date_of_birth
     })
   }
 }

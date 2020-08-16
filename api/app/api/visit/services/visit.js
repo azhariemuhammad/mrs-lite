@@ -21,6 +21,7 @@ module.exports = {
         qb.select(column)
           .from('visits AS v')
           .leftJoin('medical_records AS mr', 'v.patient', 'mr.patient_id')
+          .orderBy('v.date_visit', 'desc')
       })
       .fetchAll()
     if (result) {

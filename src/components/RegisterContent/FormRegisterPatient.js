@@ -14,10 +14,11 @@ import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
 import { useStyles } from './styles'
 import Toaster from '../Toaster'
 import Textfield from '../Textfield'
+import { SEX } from '../constants'
 
 const FormRegisterPatient = () => {
   const classes = useStyles()
-  const { register, handleSubmit, errors, control, watch } = useForm()
+  const { register, handleSubmit, errors, control } = useForm()
   const [registerNewPatient, setRegisterNewPatient] = useState({
     first_name: '',
     last_name: '',
@@ -38,42 +39,83 @@ const FormRegisterPatient = () => {
     payer: null,
     status_visit: 1
   })
-  const { dataPatients, departments, handleRegisterPatients } = useContext(
-    MedicalRecordsContext
-  )
-  console.log(departments)
+  const {
+    dataPatients,
+    departments,
+    handleRegisterPatients,
+    handleCreateVisits,
+    staffProviders
+  } = useContext(MedicalRecordsContext)
   const { setOpen } = useContext(ToasterContext)
   const [message, setMessageToaster] = useState('')
-
-  console.log(watch('poli'))
 
   const handleOnChange = (text, inputName) => {
     setRegisterNewPatient({ ...registerNewPatient, ...{ [inputName]: text } })
   }
 
   const handleSetGender = e => {
-    setRegisterNewPatient({ ...registerNewPatient, ...{ sex: e.target.value } })
+    const val = e.target.value
+    setRegisterNewPatient({ ...registerNewPatient, ...{ sex: val } })
   }
 
-  const handleClickOnSave = data => {
-    // const newDataPatient = {
-    //   name,
-    //   gender,
-    //   birthDate,
-    //   address,
-    //   city,
-    //   phoneNumber,
-    //   payer,
-    //   poli,
-    //   medRecoredNumber,
-    //   chiefComplaint
-    // }
-    // handleRegisterPatients(newDataPatient)
-    // setMessageToaster('Berhasil menyimpan data')
-    // setOpen(true)
-    // navigate('/patient-list')
-    console.log('masuk sini')
-    console.log({ data })
+  const handleClickOnSave = async data => {
+    const {
+      first_name,
+      last_name,
+      ktp_id,
+      date_of_birth,
+      city,
+      street_name,
+      phone,
+      mr_code,
+      payer,
+      chief_complain,
+      department,
+      staff_provider
+    } = data
+    const sexString = registerNewPatient.sex.toLowerCase()
+    const sex = SEX.findIndex(item => item === sexString)
+    const DOB = new Date(date_of_birth)
+    const dateOfBirth = DOB.toISOString()
+    console.log({ dateOfBirth })
+    const newDataPatient = {
+      degree: 1,
+      sex,
+      district: '',
+      first_name,
+      last_name,
+      street_name,
+      ktp_id,
+      date_of_birth: dateOfBirth,
+      city,
+      phone,
+      mr_code
+    }
+
+    const newDataVisit = {
+      staff_provider: parseInt(staff_provider, 10),
+      status_visit: '1',
+      department: parseInt(department, 10),
+      payer: parseInt(payer, 10),
+      date_visit: new Date().toISOString(),
+      chief_complain
+    }
+    try {
+      const resPatient = await handleRegisterPatients(newDataPatient)
+      if (resPatient.id) {
+        newDataVisit.patient = resPatient.id
+        const resVisit = await handleCreateVisits(newDataVisit)
+        if (resVisit) {
+          console.log(resVisit)
+          setMessageToaster('Berhasil menyimpan data')
+          setOpen(true)
+        }
+      }
+    } catch (error) {
+      console.error(error)
+      setMessageToaster('Gagal menyimpan data', error)
+      setOpen(true)
+    }
   }
 
   return (
@@ -96,7 +138,6 @@ const FormRegisterPatient = () => {
                 defaultValue={registerNewPatient.first_name}
                 fullWidth
                 inputName="first_name"
-                handler={(text, inputName) => handleOnChange(text, inputName)}
                 required
                 errors={errors}
                 control={control}
@@ -108,8 +149,17 @@ const FormRegisterPatient = () => {
                 defaultValue={registerNewPatient.last_name}
                 fullWidth
                 inputName="last_name"
-                handler={(text, inputName) => handleOnChange(text, inputName)}
                 required
+                errors={errors}
+                control={control}
+              />
+            </div>
+            <div className={classes.flex}>
+              <div className={classes.leftSide}>No. KTP</div>
+              <Textfield
+                defaultValue={registerNewPatient.ktp_id}
+                fullWidth
+                inputName="ktp_id"
                 errors={errors}
                 control={control}
               />
@@ -131,9 +181,9 @@ const FormRegisterPatient = () => {
                       label="Perempuan"
                     />
                     <FormControlLabel
-                      value="Laki laki"
+                      value="Laki-laki"
                       control={<Radio />}
-                      label="Laki laki"
+                      label="Laki-laki"
                     />
                   </RadioGroup>
                 </div>
@@ -148,13 +198,10 @@ const FormRegisterPatient = () => {
                     type="date"
                     defaultValue={registerNewPatient.birth_date}
                     fullWidth
+                    required
                     errors={errors}
-                    inputName="birth_date"
+                    inputName="date_of_birth"
                     control={control}
-                    handler={(text, inputName) =>
-                      handleOnChange(text, inputName)
-                    }
-                    className={classes.textField}
                   />
                 </div>
               </FormControl>
@@ -237,9 +284,12 @@ const FormRegisterPatient = () => {
                 name="payer"
                 className={classes.select}
                 defaultValue=""
-                ref={register}
+                ref={register({ required: true })}
                 style={{ width: '150px' }}
               >
+                <option value="" disabled selected>
+                  Pilih jaminan
+                </option>
                 <option value={1}>BPJS</option>
                 <option value={2}>UMUM</option>
               </select>
@@ -250,13 +300,16 @@ const FormRegisterPatient = () => {
             <div className={classes.flex}>
               <div className={classes.leftSide}>Poli Tujuan</div>
               <select
-                name="poli"
+                name="department"
                 className={classes.select}
                 defaultValue=""
-                ref={register}
+                ref={register({ required: true })}
                 style={{ width: '150px' }}
               >
                 <>
+                  <option value="" disabled selected>
+                    Pilih poli tujuan
+                  </option>
                   {departments.map(item => {
                     return (
                       <option value={item.id} key={item.id}>
@@ -268,12 +321,38 @@ const FormRegisterPatient = () => {
               </select>
             </div>
           </FormControl>
+          <div></div>
+          <FormControl component="fieldset">
+            <div className={classes.flex}>
+              <div className={classes.leftSide}>Pemeriksa</div>
+              <select
+                name="staff_provider"
+                className={classes.select}
+                defaultValue=""
+                ref={register({ required: true })}
+                style={{ width: '100%' }}
+              >
+                <>
+                  <option value="" disabled selected>
+                    Pilih pemeriksa
+                  </option>
+                  {staffProviders.map(item => {
+                    return (
+                      <option value={item.id} key={item.id}>
+                        {item.fullName}
+                      </option>
+                    )
+                  })}
+                </>
+              </select>
+            </div>
+          </FormControl>
           <div className={classes.flex}>
             <div className={classes.leftSide}>Keluhan</div>
             <TextareaAutosize
               aria-label="minimum height"
-              name="chiefComplain"
-              defaultValue={registerNewVisit.chief_complain}
+              name="chief_complain"
+              defaultValue=""
               ref={register}
               rowsMin={3}
               className={classes.textArea}

@@ -9,19 +9,19 @@
     "timestamps": true
   },
   "attributes": {
-    "staff_type_id": {
+    "staff_type": {
       "model": "staff-type"
     },
-    "provider_id": {
+    "provider": {
       "model": "provider"
     },
-    "user_id": {
+    "user": {
       "plugin": "users-permissions",
       "model": "user"
     },
     "visits": {
-      "via": "staff_provider",
-      "collection": "visit"
+      "collection": "visit",
+      "via": "staff_provider"
     }
   }
 }

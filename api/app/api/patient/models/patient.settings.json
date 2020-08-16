@@ -16,16 +16,14 @@
       "type": "string"
     },
     "sex": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "street_name": {
       "type": "string"
     },
     "district": {
       "type": "string"
-    },
-    "birth_of_date": {
-      "type": "date"
     },
     "ktp_id": {
       "type": "string",
@@ -42,8 +40,11 @@
       "type": "string"
     },
     "visits": {
-      "via": "patient",
-      "collection": "visit"
+      "collection": "visit",
+      "via": "patient"
+    },
+    "date_of_birth": {
+      "type": "date"
     }
   }
 }

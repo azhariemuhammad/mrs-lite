@@ -7,7 +7,7 @@ export const normalizedVisits = data => {
     const patient = item.patient
     return {
       id: item.id,
-      name: `${patient.first_name} ${patient.last_name}`,
+      name: `${patient?.first_name || ''} ${patient?.last_name || ''}`,
       gender: SEX[patient.sex] || '-',
       birthDate: patient.birth_of_date,
       address: patient.street_name,
