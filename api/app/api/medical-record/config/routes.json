@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/medical-records/last-mr",
+      "handler": "medical-record.getLastMr",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/medical-records/:id",
       "handler": "medical-record.findOne",
       "config": {

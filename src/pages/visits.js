@@ -1,17 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Layout from 'components/Layout'
-import PatientList from 'components/PatientList'
+import VisitsContent from 'components/VisitsContent.js'
 
-function PatientListPage({ location }) {
-  const pageTitle = 'Daftar Pasien'
+function VisitsPage({ location }) {
+  const pageTitle = 'Tambah Pasien'
   return (
     <Layout location={location} title={pageTitle}>
-      <PatientList />
+      <VisitsContent />
     </Layout>
   )
 }
-PatientListPage.propTypes = {
+VisitsPage.propTypes = {
   location: PropTypes.shape({ pathname: {} }).isRequired
 }
-export default PatientListPage
+export default VisitsPage

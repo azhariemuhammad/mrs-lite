@@ -3,4 +3,9 @@
  * to customize this controller
  */
 
-module.exports = {}
+module.exports = {
+  getLastMr: async ctx => {
+    const entity = await strapi.services['medical-record'].getLastMr()
+    return entity
+  }
+}

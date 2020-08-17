@@ -11,32 +11,36 @@ const Textfield = ({
   inputName,
   control,
   errors,
-  required
+  required,
+  label
 }) => {
   const error = errors?.[inputName]
   const isError = typeof error !== 'undefined'
   const classes = useStyles({ isError })
   return (
-    <Controller
-      control={control}
-      name={inputName}
-      as={
-        <TextField
-          fullWidth={fullWidth}
-          type={type}
-          InputProps={{
-            disableUnderline: true,
-            className: classes.textInput
-          }}
-          error={isError}
-          helperText={error?.message}
-        />
-      }
-      rules={{
-        ...(required && { required: 'Field tidak boleh kosong' })
-      }}
-      defaultValue={defaultValue}
-    />
+    <div className={classes.flex}>
+      <div className={classes.leftSide}>{label}</div>
+      <Controller
+        control={control}
+        name={inputName}
+        as={
+          <TextField
+            fullWidth={fullWidth}
+            type={type}
+            InputProps={{
+              disableUnderline: true,
+              className: classes.textInput
+            }}
+            error={isError}
+            helperText={error?.message}
+          />
+        }
+        rules={{
+          ...(required && { required: 'Field tidak boleh kosong' })
+        }}
+        defaultValue={defaultValue}
+      />
+    </div>
   )
 }
 
@@ -52,6 +56,7 @@ Textfield.propTypes = {
   errors: shape({}).isRequired,
   fullWidth: bool,
   inputName: string.isRequired,
+  label: string.isRequired,
   required: bool,
   type: string
 }

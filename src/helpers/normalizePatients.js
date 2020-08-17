@@ -8,7 +8,7 @@ export const normalizePatient = data => {
     return {
       name: `${item?.first_name || ''} ${item?.last_name ||}`,
       gender: SEX[item.sex] || '-',
-      birthDate: item.birth_of_date,
+      dob: item.date_of_birth,
       address: item.street_name,
       city: item.city,
       phoneNumber: item.phone,

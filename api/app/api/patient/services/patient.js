@@ -32,7 +32,7 @@ module.exports = {
           )
           .where(val)
       })
-      .fetch()
+      .fetchAll()
     if (result) {
       console.log(result)
       return result.toJSON()

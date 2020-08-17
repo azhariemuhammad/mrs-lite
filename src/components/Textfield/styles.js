@@ -9,5 +9,17 @@ export const useStyles = makeStyles({
     height: '40px',
     padding: '8px 12px',
     width: '100%'
-  })
+  }),
+  flex: {
+    display: 'flex',
+    margin: '0 0 16px 0',
+    justifyContent: 'space-between'
+  },
+  leftSide: {
+    width: '180px',
+    color: 'rgba(0, 0, 0, 0.54)',
+    fontSize: '0.85rem',
+    fontWeight: 600,
+    lineHeight: '20px'
+  }
 })

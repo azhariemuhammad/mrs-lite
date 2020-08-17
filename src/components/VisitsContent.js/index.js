@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
+import { useStyles } from './styles'
+import VisitsForm from './VisitsForm'
+import PatientList from './patientList'
 
-import FormRegisterPatient from './FormRegisterPatient'
+function VisitsContent() {
+  const classes = useStyles()
 
-import { styles } from './styles'
-
-function RegisterContent({ classes }) {
   return (
     <div className={classes.container}>
       <Paper className={classes.paper}>
@@ -19,15 +19,16 @@ function RegisterContent({ classes }) {
           className={classes.mrsHeading}
           gutterBottom
         >
-          Tambah Pasien Baru
+          Register Pasien Lama
         </Typography>
-        <FormRegisterPatient />
+        <VisitsForm />
+        <PatientList />
       </Paper>
     </div>
   )
 }
 
-RegisterContent.propTypes = {
+VisitsContent.propTypes = {
   classes: PropTypes.shape({
     block: {},
     searchInput: {},
@@ -37,4 +38,4 @@ RegisterContent.propTypes = {
   }).isRequired
 }
 
-export default withStyles(styles)(RegisterContent)
+export default VisitsContent

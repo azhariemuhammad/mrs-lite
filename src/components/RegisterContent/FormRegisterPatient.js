@@ -14,11 +14,12 @@ import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
 import { useStyles } from './styles'
 import Toaster from '../Toaster'
 import Textfield from '../Textfield'
-import { SEX } from '../constants'
+import { SEX, PAYERS } from '../constants'
+import DropdownMenu from '../DropdownMenu'
 
 const FormRegisterPatient = () => {
   const classes = useStyles()
-  const { register, handleSubmit, errors, control } = useForm()
+  const { register, handleSubmit, errors, control, reset } = useForm()
   const [registerNewPatient, setRegisterNewPatient] = useState({
     first_name: '',
     last_name: '',
@@ -32,15 +33,7 @@ const FormRegisterPatient = () => {
     mr_code: ''
   })
 
-  const [registerNewVisit, setRegisterNewVisit] = useState({
-    department: null,
-    staff_provider: null,
-    chief_complain: '',
-    payer: null,
-    status_visit: 1
-  })
   const {
-    dataPatients,
     departments,
     handleRegisterPatients,
     handleCreateVisits,
@@ -77,7 +70,7 @@ const FormRegisterPatient = () => {
     const sex = SEX.findIndex(item => item === sexString)
     const DOB = new Date(date_of_birth)
     const dateOfBirth = DOB.toISOString()
-    console.log({ dateOfBirth })
+
     const newDataPatient = {
       degree: 1,
       sex,
@@ -117,6 +110,23 @@ const FormRegisterPatient = () => {
       setOpen(true)
     }
   }
+  const getItemStaffProviders = () => {
+    if (!staffProviders.length) return []
+    return staffProviders.map(sp => {
+      return { id: sp.id, text: sp.fullName }
+    })
+  }
+
+  const getItemDepartments = () => {
+    if (!departments.length) return []
+    return departments.map(dp => ({
+      id: dp.id,
+      text: dp.name
+    }))
+  }
+  const handleReset = () => {
+    reset()
+  }
 
   return (
     <>
@@ -132,38 +142,35 @@ const FormRegisterPatient = () => {
             >
               Demografi
             </Typography>
-            <div className={classes.flex}>
-              <div className={classes.leftSide}>Nama Depan</div>
-              <Textfield
-                defaultValue={registerNewPatient.first_name}
-                fullWidth
-                inputName="first_name"
-                required
-                errors={errors}
-                control={control}
-              />
-            </div>
-            <div className={classes.flex}>
-              <div className={classes.leftSide}>Nama Belakang</div>
-              <Textfield
-                defaultValue={registerNewPatient.last_name}
-                fullWidth
-                inputName="last_name"
-                required
-                errors={errors}
-                control={control}
-              />
-            </div>
-            <div className={classes.flex}>
-              <div className={classes.leftSide}>No. KTP</div>
-              <Textfield
-                defaultValue={registerNewPatient.ktp_id}
-                fullWidth
-                inputName="ktp_id"
-                errors={errors}
-                control={control}
-              />
-            </div>
+
+            <Textfield
+              label="Nama Depan"
+              defaultValue={registerNewPatient.first_name}
+              fullWidth
+              inputName="first_name"
+              required
+              errors={errors}
+              control={control}
+            />
+            <Textfield
+              label="Nama Belakang"
+              defaultValue={registerNewPatient.last_name}
+              fullWidth
+              inputName="last_name"
+              required
+              errors={errors}
+              control={control}
+            />
+
+            <Textfield
+              label="No. KTP"
+              defaultValue={registerNewPatient.ktp_id}
+              fullWidth
+              inputName="ktp_id"
+              errors={errors}
+              control={control}
+            />
+
             <div>
               <FormControl component="fieldset">
                 <div className={classes.flex}>
@@ -189,23 +196,18 @@ const FormRegisterPatient = () => {
                 </div>
               </FormControl>
             </div>
-            <div>
-              <FormControl component="fieldset">
-                <div className={classes.flex}>
-                  <div className={classes.leftSide}>Tanggal Lahir</div>
-                  <Textfield
-                    id="date"
-                    type="date"
-                    defaultValue={registerNewPatient.birth_date}
-                    fullWidth
-                    required
-                    errors={errors}
-                    inputName="date_of_birth"
-                    control={control}
-                  />
-                </div>
-              </FormControl>
-            </div>
+
+            <Textfield
+              label="Tanggal Lahir"
+              id="date"
+              type="date"
+              defaultValue={registerNewPatient.birth_date}
+              fullWidth
+              required
+              errors={errors}
+              inputName="date_of_birth"
+              control={control}
+            />
           </div>
           <hr className={classes.divider} />
           <div className={classes.sectionWrapper}>
@@ -217,42 +219,39 @@ const FormRegisterPatient = () => {
             >
               Informasi Kontak
             </Typography>
-            <div className={classes.flex}>
-              <div className={classes.leftSide}>Alamat</div>
-              <Textfield
-                defaultValue={registerNewPatient.street_name}
-                fullWidth
-                inputName="street_name"
-                control={control}
-                errors={errors}
-                required
-                handler={(text, inputName) => handleOnChange(text, inputName)}
-              />
-            </div>
-            <div className={classes.flex}>
-              <div className={classes.leftSide}>Kota/Kabupaten</div>
-              <Textfield
-                defaultValue={registerNewPatient.city}
-                fullWidth
-                inputName="city"
-                control={control}
-                errors={errors}
-                required
-                handler={(text, inputName) => handleOnChange(text, inputName)}
-              />
-            </div>
-            <div className={classes.flex}>
-              <div className={classes.leftSide}>Nomor Ponsel</div>
-              <Textfield
-                defaultValue={registerNewPatient.phone}
-                fullWidth
-                inputName="phone"
-                type="number"
-                required
-                control={control}
-                errors={errors}
-              />
-            </div>
+
+            <Textfield
+              label="Alamat"
+              defaultValue={registerNewPatient.street_name}
+              fullWidth
+              inputName="street_name"
+              control={control}
+              errors={errors}
+              required
+              handler={(text, inputName) => handleOnChange(text, inputName)}
+            />
+
+            <Textfield
+              label="Kota/Kabupaten"
+              defaultValue={registerNewPatient.city}
+              fullWidth
+              inputName="city"
+              control={control}
+              errors={errors}
+              required
+              handler={(text, inputName) => handleOnChange(text, inputName)}
+            />
+
+            <Textfield
+              label="Nomor Ponsel"
+              defaultValue={registerNewPatient.phone}
+              fullWidth
+              inputName="phone"
+              type="number"
+              required
+              control={control}
+              errors={errors}
+            />
           </div>
         </div>
         <hr className={classes.divider} />
@@ -265,88 +264,41 @@ const FormRegisterPatient = () => {
           >
             Informasi Jaminan
           </Typography>
-          <div className={classes.flex}>
-            <div className={classes.leftSide}>No. Rekam Medis</div>
-            <Textfield
-              defaultValue={registerNewPatient.mr_code}
-              fullWidth
-              inputName="mr_code"
-              type="text"
-              control={control}
-              errors={errors}
-              required
-            />
-          </div>
-          <FormControl component="fieldset">
-            <div className={classes.flex}>
-              <div className={classes.leftSide}>Jaminan</div>
-              <select
-                name="payer"
-                className={classes.select}
-                defaultValue=""
-                ref={register({ required: true })}
-                style={{ width: '150px' }}
-              >
-                <option value="" disabled selected>
-                  Pilih jaminan
-                </option>
-                <option value={1}>BPJS</option>
-                <option value={2}>UMUM</option>
-              </select>
-            </div>
-          </FormControl>
-          <div></div>
-          <FormControl component="fieldset">
-            <div className={classes.flex}>
-              <div className={classes.leftSide}>Poli Tujuan</div>
-              <select
-                name="department"
-                className={classes.select}
-                defaultValue=""
-                ref={register({ required: true })}
-                style={{ width: '150px' }}
-              >
-                <>
-                  <option value="" disabled selected>
-                    Pilih poli tujuan
-                  </option>
-                  {departments.map(item => {
-                    return (
-                      <option value={item.id} key={item.id}>
-                        {item.name}
-                      </option>
-                    )
-                  })}
-                </>
-              </select>
-            </div>
-          </FormControl>
-          <div></div>
-          <FormControl component="fieldset">
-            <div className={classes.flex}>
-              <div className={classes.leftSide}>Pemeriksa</div>
-              <select
-                name="staff_provider"
-                className={classes.select}
-                defaultValue=""
-                ref={register({ required: true })}
-                style={{ width: '100%' }}
-              >
-                <>
-                  <option value="" disabled selected>
-                    Pilih pemeriksa
-                  </option>
-                  {staffProviders.map(item => {
-                    return (
-                      <option value={item.id} key={item.id}>
-                        {item.fullName}
-                      </option>
-                    )
-                  })}
-                </>
-              </select>
-            </div>
-          </FormControl>
+
+          <Textfield
+            label="No. Rekam Medis"
+            defaultValue={registerNewPatient.mr_code}
+            fullWidth
+            inputName="mr_code"
+            type="text"
+            control={control}
+            errors={errors}
+            required
+          />
+          <DropdownMenu
+            fieldName="Jaminan"
+            name="payer"
+            ref={register({ required: true })}
+            item={PAYERS}
+            placeholder="Pilih Jaminan"
+          />
+
+          <DropdownMenu
+            fieldName="Poli Tujuan"
+            name="department"
+            ref={register({ required: true })}
+            item={getItemDepartments()}
+            placeholder="Pilih Poli Tujuan"
+          />
+
+          <DropdownMenu
+            fieldName="Pemeriksa"
+            name="staff_provider"
+            ref={register({ required: true })}
+            item={getItemStaffProviders()}
+            placeholder="Pilih pemeriksa"
+          />
+
           <div className={classes.flex}>
             <div className={classes.leftSide}>Keluhan</div>
             <TextareaAutosize
@@ -360,8 +312,12 @@ const FormRegisterPatient = () => {
           </div>
         </div>
         <div className={classes.actionWrapper}>
-          <Button className={classes.actionBtn} variant="contained">
-            Batal
+          <Button
+            className={classes.actionBtn}
+            variant="contained"
+            onClick={handleReset}
+          >
+            Reset
           </Button>
           <Button
             className={classes.actionBtn}
