@@ -1,26 +1,29 @@
 import React, { useState, useContext } from 'react'
 
-import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
+import { PatientsContext } from 'context/PatientsContext'
 
 import CustomTable from 'components/CustomTable'
+import ModalCreateVisit from './ModalCreateVisit'
 
 const PatientList = () => {
   const [openModal, setOpenModal] = useState(false)
-  const { visits } = useContext(MedicalRecordsContext)
+  const [selectedPatient, setSelectedPatient] = useState({})
+  const { searchedPatient } = useContext(PatientsContext)
+  console.log({ searchedPatient })
 
   const headCells = [
     {
-      id: 'mrNum',
+      id: 'medRecNum',
       numeric: false,
       disablePadding: true,
       label: 'No. Rekam Medik'
     },
-    { id: 'fname', numeric: false, disablePadding: false, label: 'Nama Depan' },
+    { id: 'name', numeric: false, disablePadding: false, label: 'Nama' },
     {
-      id: 'lname',
+      id: 'dob',
       numeric: false,
       disablePadding: false,
-      label: 'Nama Belakang'
+      label: 'Tanggal Lahir'
     },
     {
       id: 'gender',
@@ -29,39 +32,35 @@ const PatientList = () => {
       label: 'Jenis Kelamin'
     },
     {
-      id: 'dob',
+      id: 'address',
       numeric: false,
       disablePadding: false,
-      label: 'Tanngal Lahir'
-    },
-    {
-      id: 'phone',
-      numeric: false,
-      disablePadding: false,
-      label: 'No. Hp'
+      label: 'Alamat'
     },
     { id: 'action', numeric: false, disablePadding: false, label: '' }
   ]
-  const tableCellsKey = [
-    'medRecoredNumber',
-    'name',
-    'chiefComplaint',
-    'gender',
-    'payer',
-    'poli'
-  ]
+  const tableCellsKey = ['medRecoredNumber', 'name', 'dob', 'gender', 'address']
 
   const handleSetOpenModal = () => {
     setOpenModal(!openModal)
   }
+  const handleOnClick = e => {
+    setSelectedPatient(e)
+    handleSetOpenModal()
+  }
   return (
     <>
       <CustomTable
-        dataTable={visits}
+        dataTable={searchedPatient}
         headCells={headCells}
         tableCellsKey={tableCellsKey}
-        action={handleSetOpenModal}
+        action={handleOnClick}
         withToolbar={false}
+      />
+      <ModalCreateVisit
+        handleClose={handleSetOpenModal}
+        patientInfo={selectedPatient}
+        open={openModal}
       />
     </>
   )

@@ -110,7 +110,7 @@ const CustomTable = ({
                       <Button
                         variant="outlined"
                         color="primary"
-                        onClick={action}
+                        onClick={() => action(row)}
                       >
                         Preview
                       </Button>

@@ -1,13 +1,14 @@
 const column = [
-  'first_name',
-  'last_name',
-  'sex',
-  'date_of_birth',
-  'city',
-  'district',
-  'street_name',
-  'phone',
-  'mr_code'
+  'p.id',
+  'p.first_name',
+  'p.last_name',
+  'p.sex',
+  'p.date_of_birth',
+  'p.city',
+  'p.district',
+  'p.street_name',
+  'p.phone',
+  'mr.mr_code'
 ]
 
 module.exports = {
@@ -23,18 +24,13 @@ module.exports = {
     const result = await strapi
       .query('patient')
       .model.query(qb => {
-        qb.column(column)
-          .join(
-            'medical_records',
-            'patients.id',
-            '=',
-            'medical_records.patient_id'
-          )
+        qb.select(column)
+          .from('patients AS p')
+          .join('medical_records AS mr', 'p.id', '=', 'mr.patient_id')
           .where(val)
       })
       .fetchAll()
     if (result) {
-      console.log(result)
       return result.toJSON()
     }
     return []

@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import { useStyles } from './styles'
 import VisitsForm from './VisitsForm'
-import PatientList from './patientList'
+import PatientList from './PatientList'
 
 function VisitsContent() {
   const classes = useStyles()

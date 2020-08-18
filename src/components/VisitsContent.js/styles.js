@@ -37,5 +37,8 @@ export const useVisitStyles = makeStyles({
   },
   actionBtn: {
     marginRight: '16px'
+  },
+  wrapperVisits: {
+    margin: '16px 0 32px 0'
   }
 })

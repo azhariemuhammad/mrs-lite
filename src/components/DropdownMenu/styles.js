@@ -27,5 +27,8 @@ export const useStyles = makeStyles({
     fontSize: '0.85rem',
     fontWeight: 600,
     lineHeight: '20px'
+  },
+  placeholder: {
+    color: 'rgb(229, 231, 233)'
   }
 })

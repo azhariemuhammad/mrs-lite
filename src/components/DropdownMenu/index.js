@@ -17,7 +17,7 @@ const DropdownMenu = React.forwardRef(
           style={{ width: '100%' }}
         >
           <>
-            <option value="" disabled selected>
+            <option value="" disabled selected className={classes.placeholder}>
               {placeholder}
             </option>
             <>

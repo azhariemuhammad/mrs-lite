@@ -1,20 +1,24 @@
-import React, { useCallback } from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import Button from '@material-ui/core/Button'
 import Textfield from 'components/Textfield'
+import { PatientsContext } from 'context/PatientsContext'
 import { useVisitStyles } from './styles'
-import searchPatients from '../../helpers/searchPatients'
 
 const VisitsForm = () => {
   const classes = useVisitStyles()
+  const { handleSearchPatient } = useContext(PatientsContext)
   const { handleSubmit, errors, control, reset } = useForm()
-  const handleSearchPatient = useCallback(async data => {
-    const res = await searchPatients(data)
-    console.log(res)
-  }, [])
+  const handleOnSearch = async data => {
+    try {
+      await handleSearchPatient(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
-    <div className="wrapperVisits">
+    <div className={classes.wrapperVisits}>
       <div>Cari pasien</div>
       <div className={classes.grid}>
         <div className="gridItem">
@@ -43,19 +47,22 @@ const VisitsForm = () => {
             control={control}
           />
           <div className={classes.actionWrapper}>
-            <Button className={classes.actionBtn} variant="contained">
+            <Button
+              className={classes.actionBtn}
+              onClick={reset}
+              variant="contained"
+            >
               Reset
             </Button>
             <Button
               variant="contained"
               color="primary"
-              onClick={handleSubmit(handleSearchPatient)}
+              onClick={handleSubmit(handleOnSearch)}
             >
               Cari
             </Button>
           </div>
         </div>
-        <div className="gridItem">foo</div>
       </div>
     </div>
   )
