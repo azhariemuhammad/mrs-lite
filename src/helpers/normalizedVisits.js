@@ -4,12 +4,14 @@ export const normalizedVisits = data => {
   if (data.length < 1) return []
 
   const normalized = data.map(item => {
-    const patient = item.patient
+    const patient = item?.patient || {}
+    const staffProvider = item?.staff_provider || {}
+    const staffId = staffProvider.id
     return {
       id: item.id,
       name: `${patient?.first_name || ''} ${patient?.last_name || ''}`,
       gender: SEX[patient.sex] || '-',
-      birthDate: patient.birth_of_date,
+      dob: patient.date_of_birth || '',
       address: patient.street_name,
       city: patient.city,
       phoneNumber: patient.phone,
@@ -17,7 +19,8 @@ export const normalizedVisits = data => {
       poli: item.department.name,
       medRecoredNumber: item.mr_code,
       chiefComplaint: item.chief_complain,
-      dateVisit: item.date_visit
+      visitDate: item.date_visit,
+      staffId
     }
   })
 

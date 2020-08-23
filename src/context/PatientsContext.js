@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { node } from 'prop-types'
 import searchPatients from '../helpers/searchPatients'
 import { normalizePatient } from '../helpers/normalizePatients'
@@ -9,9 +9,13 @@ export const PatientsProvider = ({ children }) => {
   const [searchedPatient, setSearchPatient] = useState([])
   const handleSearchPatient = async data => {
     const res = await searchPatients(data)
-    const normalizedPatient = normalizePatient(res || [])
-    console.log({ normalizedPatient })
-    setSearchPatient(normalizedPatient)
+
+    if (res.ok) {
+      const normalizedPatient = normalizePatient(res.json || [])
+      setSearchPatient(normalizedPatient)
+      return { error: false }
+    }
+    return { error: 'Mohon coba lagi!' }
   }
   return (
     <PatientsContext.Provider value={{ handleSearchPatient, searchedPatient }}>

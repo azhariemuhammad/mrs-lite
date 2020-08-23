@@ -1,11 +1,15 @@
-import React from 'react'
-import { bool, func } from 'prop-types'
+import React, { useMemo, useContext } from 'react'
+import { bool, func, string } from 'prop-types'
+import dayjs from 'dayjs'
+import 'dayjs/locale/id'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 import PersonIcon from '@material-ui/icons/Person'
+import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
+import { calculateAge } from 'helpers/calculateAge'
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -48,8 +52,39 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ModalPreviewPatient = ({ handleClose, open }) => {
+const ModalPreviewPatient = ({
+  handleClose,
+  open,
+  name,
+  gender,
+  dob,
+  poli,
+  visitDate,
+  payer,
+  staffId
+}) => {
+  const formatVisitDate = dayjs(visitDate || Date.now())
+    .locale('id')
+    .format('dddd, DD-MM -YYYY')
+
   const classes = useStyles()
+  const { staffProviders } = useContext(MedicalRecordsContext)
+
+  const getStaffProvider = useMemo(() => {
+    if (staffProviders.length && staffId) {
+      const sp = staffProviders.filter(item => item.id === staffId)
+      return sp?.[0] || { fullName: '' }
+    }
+    return { fullName: '' }
+  }, [staffProviders.length, staffId])
+
+  const age = useMemo(() => {
+    if (dob) {
+      return calculateAge(new Date(dob))
+    }
+    return '-'
+  }, [dob])
+
   return (
     <div>
       <Modal
@@ -80,9 +115,9 @@ const ModalPreviewPatient = ({ handleClose, open }) => {
                   <PersonIcon style={{ fontSize: 40 }} color="inherit" />
                 </div>
                 <div className={classes.textContent}>
-                  <span>Muhammad Amri A. Azhary</span>
-                  <span>Pria</span>
-                  <span>11 Dec 1992</span>
+                  <span>{name}</span>
+                  <span>{gender}</span>
+                  <span>{dob ? `${dob} | ${age}` : '-'}</span>
                 </div>
               </div>
             </Paper>
@@ -98,16 +133,16 @@ const ModalPreviewPatient = ({ handleClose, open }) => {
               <div className={classes.textContent}>
                 <div className={classes.gridColumns}>
                   <span>Klinik</span>
-                  <span>Poli Umum</span>
+                  <span>{poli}</span>
 
-                  <span>Dokter Penanggung Jawab</span>
-                  <span>dr. Covid 19</span>
+                  <span>Dokter Penanggung Jdawab</span>
+                  <span>{getStaffProvider.fullName}</span>
 
                   <span>Jaminan</span>
-                  <span>BPJS</span>
+                  <span>{payer}</span>
 
                   <span>Tanggal Kunjungan</span>
-                  <span>04 April 2012</span>
+                  <span>{formatVisitDate}</span>
                 </div>
               </div>
             </Paper>
@@ -120,7 +155,14 @@ const ModalPreviewPatient = ({ handleClose, open }) => {
 
 ModalPreviewPatient.propTypes = {
   handleClose: func.isRequired,
-  open: bool.isRequired
+  open: bool.isRequired,
+  name: string.isRequired,
+  gender: string.isRequired,
+  dob: string.isRequired,
+  poli: string.isRequired,
+  staffId: string.isRequired,
+  payer: string.isRequired,
+  visitDate: string.isRequired
 }
 
 export default ModalPreviewPatient

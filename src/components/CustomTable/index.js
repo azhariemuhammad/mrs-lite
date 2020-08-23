@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
-
+import LoaderCircle from 'components/LoaderCircle'
 import EnhancedTableToolbar from './EnhancedTableToolbar'
 import EnhancedTableHead from './EnhancedTableHead'
 
@@ -42,6 +42,11 @@ const useStyles = makeStyles(theme => ({
     zIndex: 100,
     fontSize: '0.875rem',
     fontWeight: 700
+  },
+  loaderWrapper: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    width: '100%'
   }
 }))
 
@@ -50,7 +55,8 @@ const CustomTable = ({
   headCells,
   tableCellsKey,
   action,
-  withToolbar
+  withToolbar,
+  loading
 }) => {
   const classes = useStyles()
   const [selected, setSelected] = useState([])
@@ -82,42 +88,49 @@ const CustomTable = ({
               headCells={headCells}
             />
             <TableBody>
-              {dataTable.map((row, idx) => {
-                const labelId = `enhanced-table-checkbox-${idx}`
-                return (
-                  <TableRow
-                    hover
-                    onClick={() => {}}
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.name}
-                    selected={false}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={false}
-                        inputProps={{
-                          'aria-labelledby': labelId
-                        }}
-                      />
-                    </TableCell>
-                    {tableCellsKey.map(cellKey => (
-                      <TableCell align="left" key={cellKey}>
-                        {row[cellKey]}
+              <>
+                {loading && (
+                  <div className={classes.loaderWrapper}>
+                    <LoaderCircle />
+                  </div>
+                )}
+                {dataTable.map((row, idx) => {
+                  const labelId = `enhanced-table-checkbox-${idx}`
+                  return (
+                    <TableRow
+                      hover
+                      onClick={() => {}}
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.name}
+                      selected={false}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={false}
+                          inputProps={{
+                            'aria-labelledby': labelId
+                          }}
+                        />
                       </TableCell>
-                    ))}
-                    <TableCell>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => action(row)}
-                      >
-                        Preview
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
+                      {tableCellsKey.map(cellKey => (
+                        <TableCell align="left" key={cellKey}>
+                          {row[cellKey]}
+                        </TableCell>
+                      ))}
+                      <TableCell>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          onClick={() => action(row)}
+                        >
+                          Preview
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </>
             </TableBody>
           </Table>
         </TableContainer>
@@ -127,6 +140,7 @@ const CustomTable = ({
 }
 
 CustomTable.defaultProps = {
+  loading: false,
   withToolbar: true
 }
 CustomTable.propTypes = {
@@ -134,6 +148,7 @@ CustomTable.propTypes = {
   headCells: arrayOf({}).isRequired,
   tableCellsKey: arrayOf({}).isRequired,
   action: func.isRequired,
-  withToolbar: bool
+  withToolbar: bool,
+  loading: bool
 }
 export default CustomTable

@@ -16,12 +16,13 @@ const searchPatients = async params => {
     }
     return true
   })
+  const resp = await fetch(`${url}`, options)
   try {
-    const resp = await fetch(`${url}`, options)
     const json = await resp.json()
-    return json
+    return { json, ok: resp.ok }
   } catch (error) {
-    return error
+    console.error(error)
+    return resp
   }
 }
 

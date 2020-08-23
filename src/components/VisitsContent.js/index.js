@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import Paper from '@material-ui/core/Paper'
@@ -9,6 +9,7 @@ import PatientList from './PatientList'
 
 function VisitsContent() {
   const classes = useStyles()
+  const [loading, setLoading] = useState(false)
 
   return (
     <div className={classes.container}>
@@ -21,8 +22,8 @@ function VisitsContent() {
         >
           Register Pasien Lama
         </Typography>
-        <VisitsForm />
-        <PatientList />
+        <VisitsForm handleSetLoading={param => setLoading(param)} />
+        <PatientList loading={loading} />
       </Paper>
     </div>
   )

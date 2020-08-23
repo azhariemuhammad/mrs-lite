@@ -1,15 +1,14 @@
 import React, { useState, useContext } from 'react'
-
+import { bool } from 'prop-types'
 import { PatientsContext } from 'context/PatientsContext'
 
 import CustomTable from 'components/CustomTable'
 import ModalCreateVisit from './ModalCreateVisit'
 
-const PatientList = () => {
+const PatientList = ({ loading }) => {
   const [openModal, setOpenModal] = useState(false)
   const [selectedPatient, setSelectedPatient] = useState({})
   const { searchedPatient } = useContext(PatientsContext)
-  console.log({ searchedPatient })
 
   const headCells = [
     {
@@ -56,6 +55,7 @@ const PatientList = () => {
         tableCellsKey={tableCellsKey}
         action={handleOnClick}
         withToolbar={false}
+        loading={loading}
       />
       <ModalCreateVisit
         handleClose={handleSetOpenModal}
@@ -64,6 +64,10 @@ const PatientList = () => {
       />
     </>
   )
+}
+
+PatientList.propTypes = {
+  loading: bool.isRequired
 }
 
 export default PatientList

@@ -1,13 +1,28 @@
-import React, { useState, useContext } from 'react'
-
-import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
+import React, { useState, useEffect } from 'react'
 
 import CustomTable from 'components/CustomTable'
+import { normalizedVisits } from 'helpers/normalizedVisits'
+import fetchRequest from 'helpers/fetchRequest'
 import ModalPreviewPatient from './ModalPreviewPatient'
 
 const PatientListCard = () => {
   const [openModal, setOpenModal] = useState(false)
-  const { visits } = useContext(MedicalRecordsContext)
+  const [visits, setVisits] = useState([])
+  const [selectedPatient, setSelectedPatient] = useState({})
+
+  useEffect(() => {
+    async function getVisits() {
+      const res = await fetchRequest({}, 'all-visits', 'GET')
+      if (res.error) {
+        setVisits([])
+        return
+      }
+      setVisits(normalizedVisits(res) || [])
+    }
+    if (!visits.length) {
+      getVisits()
+    }
+  }, [])
 
   const headCells = [
     {
@@ -55,15 +70,33 @@ const PatientListCard = () => {
   const handleSetOpenModal = () => {
     setOpenModal(!openModal)
   }
+
+  const handleOnClick = e => {
+    setSelectedPatient(e)
+    handleSetOpenModal()
+  }
+
+  const { name, gender, dob, poli, staffId, visitDate, payer } = selectedPatient
   return (
     <>
       <CustomTable
         dataTable={visits}
         headCells={headCells}
         tableCellsKey={tableCellsKey}
-        action={handleSetOpenModal}
+        action={handleOnClick}
       />
-      <ModalPreviewPatient handleClose={handleSetOpenModal} open={openModal} />
+      <ModalPreviewPatient
+        handleClose={handleSetOpenModal}
+        open={openModal}
+        patientInfo={selectedPatient}
+        name={name}
+        gender={gender}
+        dob={dob}
+        poli={poli}
+        staffId={staffId}
+        visitDate={visitDate}
+        payer={payer}
+      />
     </>
   )
 }
