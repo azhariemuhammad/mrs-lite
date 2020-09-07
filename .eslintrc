@@ -8,6 +8,7 @@
     "import/prefer-default-export": "off",
     "react/jsx-props-no-spreading": "off",
     "prefer-destructuring": ["error", { "object": false, "array": false }],
+    "no-underscore-dangle": ["error", { "allow": ["_bar"] }],
     "camelcase": "off"
   },
   "settings": {

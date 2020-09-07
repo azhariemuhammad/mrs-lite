@@ -6,7 +6,7 @@ const searchPatients = async params => {
     headers: {
       'Content-Type': 'application/json',
       Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTk2NjQ0MjMyLCJleHAiOjE1OTkyMzYyMzJ9.e86udwnmwGCUaQKXFOwc3LsgJ_OkQsFVwI_GFWSI1Kw'
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTk5MzgyNzU1LCJleHAiOjE2MDE5NzQ3NTV9.4fyMok3jY7YqgXePL0MPMN4_c5dGivTY8wundDM7a8o'
     }
   }
   const url = new URL(`${baseURL}patients`)
@@ -16,13 +16,16 @@ const searchPatients = async params => {
     }
     return true
   })
-  const resp = await fetch(`${url}`, options)
+
   try {
+    const resp = await fetch(`${url}`, options)
     const json = await resp.json()
-    return { json, ok: resp.ok }
+    if (json?.error) {
+      return { response: null, error: json }
+    }
+    return { response: json, error: null }
   } catch (error) {
-    console.error(error)
-    return resp
+    return { response: null, error }
   }
 }
 

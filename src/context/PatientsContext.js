@@ -8,14 +8,13 @@ export const PatientsContext = React.createContext()
 export const PatientsProvider = ({ children }) => {
   const [searchedPatient, setSearchPatient] = useState([])
   const handleSearchPatient = async data => {
-    const res = await searchPatients(data)
+    const { response, error } = await searchPatients(data)
 
-    if (res.ok) {
-      const normalizedPatient = normalizePatient(res.json || [])
+    if (!error) {
+      const normalizedPatient = normalizePatient(response || [])
       setSearchPatient(normalizedPatient)
-      return { error: false }
     }
-    return { error: 'Mohon coba lagi!' }
+    return { error, response }
   }
   return (
     <PatientsContext.Provider value={{ handleSearchPatient, searchedPatient }}>

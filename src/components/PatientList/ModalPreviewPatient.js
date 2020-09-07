@@ -135,7 +135,7 @@ const ModalPreviewPatient = ({
                   <span>Klinik</span>
                   <span>{poli}</span>
 
-                  <span>Dokter Penanggung Jdawab</span>
+                  <span>Dokter Penanggung Jawab</span>
                   <span>{getStaffProvider.fullName}</span>
 
                   <span>Jaminan</span>

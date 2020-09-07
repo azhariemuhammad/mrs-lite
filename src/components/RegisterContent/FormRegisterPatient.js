@@ -7,12 +7,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import Radio from '@material-ui/core/Radio'
 import { useForm } from 'react-hook-form'
+import { navigate } from '@reach/router'
 
-import { ToasterContext } from 'context/ToasterContext'
+import ToasterContext from 'context/ToasterContext'
 import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
 
 import { useStyles } from './styles'
-import Toaster from '../Toaster'
 import Textfield from '../Textfield'
 import { SEX, PAYERS } from '../constants'
 import DropdownMenu from '../DropdownMenu'
@@ -39,8 +39,7 @@ const FormRegisterPatient = () => {
     handleCreateVisits,
     staffProviders
   } = useContext(MedicalRecordsContext)
-  const { setOpen } = useContext(ToasterContext)
-  const [message, setMessageToaster] = useState('')
+  const { showToaster } = useContext(ToasterContext)
 
   const handleOnChange = (text, inputName) => {
     setRegisterNewPatient({ ...registerNewPatient, ...{ [inputName]: text } })
@@ -51,7 +50,15 @@ const FormRegisterPatient = () => {
     setRegisterNewPatient({ ...registerNewPatient, ...{ sex: val } })
   }
 
-  const handleClickOnSave = async data => {
+  const handleSuccessSubmit = isSaveAndAdd => {
+    showToaster({ text: 'Berhasil menyimpan data' })
+    reset()
+    if (!isSaveAndAdd) {
+      navigate('/patient-list/')
+    }
+  }
+
+  const handleClickOnSave = async (data, isSaveAndAdd = false) => {
     const {
       first_name,
       last_name,
@@ -68,7 +75,7 @@ const FormRegisterPatient = () => {
     } = data
     const sexString = registerNewPatient.sex.toLowerCase()
     const sex = SEX.findIndex(item => item === sexString)
-    const DOB = new Date(date_of_birth)
+    const DOB = date_of_birth ? new Date(date_of_birth) : new Date()
     const dateOfBirth = DOB.toISOString()
 
     const newDataPatient = {
@@ -99,15 +106,12 @@ const FormRegisterPatient = () => {
         newDataVisit.patient = resPatient.id
         const resVisit = await handleCreateVisits(newDataVisit)
         if (resVisit) {
-          console.log(resVisit)
-          setMessageToaster('Berhasil menyimpan data')
-          setOpen(true)
+          handleSuccessSubmit(isSaveAndAdd)
         }
       }
     } catch (error) {
       console.error(error)
-      setMessageToaster('Gagal menyimpan data', error)
-      setOpen(true)
+      showToaster({ text: 'Gagal menyimpan data', error: true })
     }
   }
   const getItemStaffProviders = () => {
@@ -130,14 +134,12 @@ const FormRegisterPatient = () => {
 
   return (
     <>
-      <Toaster message={message} />
       <div className={classes.root}>
         <div>
           <div className={classes.sectionWrapper}>
             <Typography
               className={classes.mrsHeading}
               component="h4"
-              variant="h7"
               color="textSecondary"
             >
               Demografi
@@ -214,7 +216,6 @@ const FormRegisterPatient = () => {
             <Typography
               component="h4"
               className={classes.mrsHeading}
-              variant="h7"
               color="textSecondary"
             >
               Informasi Kontak
@@ -259,7 +260,6 @@ const FormRegisterPatient = () => {
           <Typography
             className={classes.mrsHeading}
             component="h4"
-            variant="h7"
             color="textSecondary"
           >
             Informasi Jaminan
@@ -323,12 +323,13 @@ const FormRegisterPatient = () => {
             className={classes.actionBtn}
             variant="contained"
             color="secondary"
+            onClick={handleSubmit(() => handleClickOnSave(true))}
           >
             Simpan & Tambah Baru
           </Button>
           <Button
             variant="contained"
-            onClick={handleSubmit(handleClickOnSave)}
+            onClick={handleSubmit(() => handleClickOnSave(false))}
             color="primary"
           >
             Simpan

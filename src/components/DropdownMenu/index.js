@@ -1,5 +1,5 @@
 import React from 'react'
-import { string, arrayOf } from 'prop-types'
+import { string, arrayOf, shape, number } from 'prop-types'
 
 import { useStyles } from './styles'
 
@@ -51,7 +51,7 @@ DropdownMenu.propTypes = {
   fieldName: string,
   name: string,
   placeholder: string,
-  item: arrayOf({}).isRequired
+  item: arrayOf(shape({ id: number, text: string })).isRequired
 }
 
 export default DropdownMenu

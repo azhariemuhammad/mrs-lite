@@ -8,19 +8,28 @@ import fetchRequest from '../helpers/fetchRequest'
 export const MedicalRecordsContext = React.createContext()
 
 export const MedicalRecordsProvider = ({ children }) => {
-  const responseDepartment = useFetch('departments', 'GET', {})
-  const responseStaff = useFetch('staff-providers', 'GET', {})
+  const { response: responseDepartment, error: errorDepartment } = useFetch(
+    'departments',
+    'GET',
+    {}
+  )
+  const { response: responseStaff, error: errorStaff } = useFetch(
+    'staff-providers',
+    'GET',
+    {}
+  )
 
   const [departments, setDepartments] = useState([])
   const [staffProviders, setStaffProviders] = useState([])
   useEffect(() => {
-    if (responseDepartment) {
+    if (!errorDepartment && responseDepartment) {
       setDepartments(responseDepartment)
     }
-    if (responseStaff) {
+
+    if (!errorStaff && responseStaff) {
       setStaffProviders(normalizedStaffProviders(responseStaff) || [])
     }
-  }, [responseDepartment, responseStaff])
+  }, [responseDepartment, responseStaff, errorStaff, errorDepartment])
 
   const handleRegisterPatients = data => {
     const body = JSON.stringify(data)

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { bool, func, string, shape, number } from 'prop-types'
 import { useForm } from 'react-hook-form'
 import { makeStyles } from '@material-ui/core/styles'
@@ -11,8 +11,7 @@ import PersonIcon from '@material-ui/icons/Person'
 import DropdownMenu from 'components/DropdownMenu'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
-import { ToasterContext } from 'context/ToasterContext'
-import Toaster from 'components/Toaster'
+import ToasterContext from 'context/ToasterContext'
 import { PAYERS } from '../constants'
 import { useVisitStyles } from './styles'
 
@@ -68,8 +67,7 @@ const useStyles = makeStyles(theme => ({
 const ModalCreateVisit = ({ handleClose, open, patientInfo }) => {
   const { register, handleSubmit } = useForm()
   const classes = useStyles()
-  const { setOpen } = useContext(ToasterContext)
-  const [message, setMessageToaster] = useState('')
+  const { showToaster } = useContext(ToasterContext)
   const visitStyles = useVisitStyles()
   const { departments, handleCreateVisits, staffProviders } = useContext(
     MedicalRecordsContext
@@ -104,19 +102,16 @@ const ModalCreateVisit = ({ handleClose, open, patientInfo }) => {
     try {
       const resVisit = await handleCreateVisits(newDataVisit)
       if (resVisit) {
-        setMessageToaster('Berhasil menyimpan data')
-        setOpen(true)
+        showToaster({ text: 'Berhasil menyimpan data' })
       }
     } catch (error) {
-      setMessageToaster('Gagal menyimpan data', error)
-      setOpen(true)
+      showToaster({ text: 'Gagal menyimpan data', error: true })
     }
     handleClose()
   }
 
   return (
     <div>
-      <Toaster message={message} />
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

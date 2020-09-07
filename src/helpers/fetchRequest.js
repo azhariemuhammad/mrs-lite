@@ -5,7 +5,7 @@ const fetchRequest = async (body, url, method) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTk2NjQ0MjMyLCJleHAiOjE1OTkyMzYyMzJ9.e86udwnmwGCUaQKXFOwc3LsgJ_OkQsFVwI_GFWSI1Kw'
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTk5MzgxMDk4LCJleHAiOjE2MDE5NzMwOTh9.HoT9LcNgKIVLQASkVE7oW82Iamma2EYxKle9A49D9Kk'
     },
     ...(Object.keys(body).length && { body }),
     method
@@ -13,8 +13,10 @@ const fetchRequest = async (body, url, method) => {
   try {
     const resp = await fetch(`${baseURL}${url}`, options)
     const json = await resp.json()
+
     return json
   } catch (error) {
+    console.log(error)
     return { error }
   }
 }

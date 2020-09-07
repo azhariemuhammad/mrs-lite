@@ -1,33 +1,27 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { func } from 'prop-types'
 import Button from '@material-ui/core/Button'
 import Textfield from 'components/Textfield'
 import { PatientsContext } from 'context/PatientsContext'
-import Toaster from 'components/Toaster'
-import { ToasterContext } from 'context/ToasterContext'
+import ToasterContext from 'context/ToasterContext'
 import { useVisitStyles } from './styles'
 
 const VisitsForm = ({ handleSetLoading }) => {
   const classes = useVisitStyles()
-  const { setOpen } = useContext(ToasterContext)
-  const [message, setMessageToaster] = useState('')
+  const { showToaster } = useContext(ToasterContext)
   const { handleSearchPatient } = useContext(PatientsContext)
   const { handleSubmit, errors, control, reset } = useForm()
   const handleOnSearch = async data => {
     handleSetLoading(true)
-    const resp = await handleSearchPatient(data)
-
-    if (resp.error) {
-      setMessageToaster(resp.error)
-      setOpen(true)
+    const { error } = await handleSearchPatient(data)
+    if (error) {
+      showToaster({ text: error.message, error: true })
     }
     handleSetLoading(false)
   }
-
   return (
     <>
-      <Toaster message={message} />
       <div className={classes.wrapperVisits}>
         <div>Cari pasien</div>
         <div className={classes.grid}>
