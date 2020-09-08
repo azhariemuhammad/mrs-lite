@@ -7,6 +7,8 @@ export const normalizedVisits = data => {
     const patient = item?.patient || {}
     const staffProvider = item?.staff_provider || {}
     const staffId = staffProvider.id
+    const payer = item?.payer || {}
+    const department = item?.department || {}
     return {
       id: item.id,
       name: `${patient?.first_name || ''} ${patient?.last_name || ''}`,
@@ -15,11 +17,11 @@ export const normalizedVisits = data => {
       address: patient.street_name,
       city: patient.city,
       phoneNumber: patient.phone,
-      payer: item.payer.type,
-      poli: item.department.name,
-      medRecoredNumber: item.mr_code,
-      chiefComplaint: item.chief_complain,
-      visitDate: item.date_visit,
+      payer: payer.type || '',
+      poli: department.name || '',
+      medRecoredNumber: item.mr_code || '',
+      chiefComplaint: item.chief_complain || '',
+      visitDate: item.date_visit || '',
       staffId
     }
   })

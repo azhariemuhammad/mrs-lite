@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { arrayOf, bool, func } from 'prop-types'
+import { arrayOf, bool, func, string } from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -56,7 +56,8 @@ const CustomTable = ({
   tableCellsKey,
   action,
   withToolbar,
-  loading
+  loading,
+  actionText
 }) => {
   const classes = useStyles()
   const [selected, setSelected] = useState([])
@@ -124,7 +125,7 @@ const CustomTable = ({
                           color="primary"
                           onClick={() => action(row)}
                         >
-                          Preview
+                          {actionText}
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -140,10 +141,12 @@ const CustomTable = ({
 }
 
 CustomTable.defaultProps = {
+  actionText: '',
   loading: false,
   withToolbar: true
 }
 CustomTable.propTypes = {
+  actionText: string,
   dataTable: arrayOf({}).isRequired,
   headCells: arrayOf({}).isRequired,
   tableCellsKey: arrayOf({}).isRequired,

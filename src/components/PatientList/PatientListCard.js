@@ -12,12 +12,12 @@ const PatientListCard = () => {
 
   useEffect(() => {
     async function getVisits() {
-      const res = await fetchRequest({}, 'all-visits', 'GET')
-      if (res.error) {
+      const { response, error } = await fetchRequest({}, 'all-visits', 'GET')
+      if (error) {
         setVisits([])
         return
       }
-      setVisits(normalizedVisits(res) || [])
+      setVisits(normalizedVisits(response) || [])
     }
     if (!visits.length) {
       getVisits()
@@ -84,6 +84,7 @@ const PatientListCard = () => {
         headCells={headCells}
         tableCellsKey={tableCellsKey}
         action={handleOnClick}
+        actionText="Lihat"
       />
       <ModalPreviewPatient
         handleClose={handleSetOpenModal}

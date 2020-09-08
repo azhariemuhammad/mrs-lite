@@ -20,6 +20,8 @@ import DropdownMenu from '../DropdownMenu'
 const FormRegisterPatient = () => {
   const classes = useStyles()
   const { register, handleSubmit, errors, control, reset } = useForm()
+  const [onSaveAddLoading, setOnSaveAddLoading] = useState(false)
+  const [onSaveLoading, setOnSaveLoading] = useState(false)
   const [registerNewPatient, setRegisterNewPatient] = useState({
     first_name: '',
     last_name: '',
@@ -50,15 +52,7 @@ const FormRegisterPatient = () => {
     setRegisterNewPatient({ ...registerNewPatient, ...{ sex: val } })
   }
 
-  const handleSuccessSubmit = isSaveAndAdd => {
-    showToaster({ text: 'Berhasil menyimpan data' })
-    reset()
-    if (!isSaveAndAdd) {
-      navigate('/patient-list/')
-    }
-  }
-
-  const handleClickOnSave = async (data, isSaveAndAdd = false) => {
+  const handlePostData = async data => {
     const {
       first_name,
       last_name,
@@ -73,6 +67,7 @@ const FormRegisterPatient = () => {
       department,
       staff_provider
     } = data
+    console.log({ data })
     const sexString = registerNewPatient.sex.toLowerCase()
     const sex = SEX.findIndex(item => item === sexString)
     const DOB = date_of_birth ? new Date(date_of_birth) : new Date()
@@ -100,19 +95,37 @@ const FormRegisterPatient = () => {
       date_visit: new Date().toISOString(),
       chief_complain
     }
+
     try {
-      const resPatient = await handleRegisterPatients(newDataPatient)
-      if (resPatient.id) {
-        newDataVisit.patient = resPatient.id
-        const resVisit = await handleCreateVisits(newDataVisit)
-        if (resVisit) {
-          handleSuccessSubmit(isSaveAndAdd)
+      const { response, error } = await handleRegisterPatients(newDataPatient)
+      if (!error) {
+        newDataVisit.patient = response.id
+        const { error: errorVisit } = await handleCreateVisits(newDataVisit)
+        if (errorVisit) {
+          showToaster({ text: 'Gagal membuat data visit', error: true })
         }
+      } else {
+        showToaster({ text: 'Gagal menyimpan data', error: true })
       }
     } catch (error) {
       console.error(error)
       showToaster({ text: 'Gagal menyimpan data', error: true })
     }
+  }
+
+  const handleClickOnSave = async data => {
+    setOnSaveLoading(true)
+    await handlePostData(data)
+    setOnSaveLoading(false)
+    reset()
+    navigate('/patient-list/')
+  }
+
+  const handleClickOnSaveAndAddNew = async data => {
+    setOnSaveAddLoading(true)
+    await handlePostData(data)
+    setOnSaveAddLoading(false)
+    reset()
   }
   const getItemStaffProviders = () => {
     if (!staffProviders.length) return []
@@ -323,16 +336,18 @@ const FormRegisterPatient = () => {
             className={classes.actionBtn}
             variant="contained"
             color="secondary"
-            onClick={handleSubmit(() => handleClickOnSave(true))}
+            disabled={onSaveAddLoading}
+            onClick={handleSubmit(handleClickOnSaveAndAddNew)}
           >
-            Simpan & Tambah Baru
+            {onSaveAddLoading ? 'Loading...' : 'Simpan & Tambah Baru'}
           </Button>
           <Button
             variant="contained"
-            onClick={handleSubmit(() => handleClickOnSave(false))}
+            disabled={onSaveLoading}
+            onClick={handleSubmit(handleClickOnSave)}
             color="primary"
           >
-            Simpan
+            {onSaveLoading ? 'Loading...' : 'Simpan'}
           </Button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { bool, func, string, shape, number } from 'prop-types'
 import { useForm } from 'react-hook-form'
 import { makeStyles } from '@material-ui/core/styles'
@@ -67,6 +67,7 @@ const useStyles = makeStyles(theme => ({
 const ModalCreateVisit = ({ handleClose, open, patientInfo }) => {
   const { register, handleSubmit } = useForm()
   const classes = useStyles()
+  const [onSaveLoading, setOnSaveLoading] = useState(false)
   const { showToaster } = useContext(ToasterContext)
   const visitStyles = useVisitStyles()
   const { departments, handleCreateVisits, staffProviders } = useContext(
@@ -88,6 +89,7 @@ const ModalCreateVisit = ({ handleClose, open, patientInfo }) => {
   }
 
   const handleClickOnSave = async data => {
+    setOnSaveLoading(true)
     const { payer, chief_complain, department, staff_provider } = data
 
     const newDataVisit = {
@@ -100,13 +102,16 @@ const ModalCreateVisit = ({ handleClose, open, patientInfo }) => {
       chief_complain
     }
     try {
-      const resVisit = await handleCreateVisits(newDataVisit)
-      if (resVisit) {
+      const { response, error } = await handleCreateVisits(newDataVisit)
+      if (response && !error) {
         showToaster({ text: 'Berhasil menyimpan data' })
+      } else {
+        showToaster({ text: 'Gagal menyimpan data', error: true })
       }
     } catch (error) {
       showToaster({ text: 'Gagal menyimpan data', error: true })
     }
+    setOnSaveLoading(false)
     handleClose()
   }
 
@@ -197,14 +202,15 @@ const ModalCreateVisit = ({ handleClose, open, patientInfo }) => {
                     onClick={handleClose}
                     variant="contained"
                   >
-                    Cancel
+                    Batal
                   </Button>
                   <Button
                     variant="contained"
                     color="primary"
+                    disabled={onSaveLoading}
                     onClick={handleSubmit(handleClickOnSave)}
                   >
-                    Simpan
+                    {onSaveLoading ? 'Loading...' : 'Simpan'}
                   </Button>
                 </div>
               </div>

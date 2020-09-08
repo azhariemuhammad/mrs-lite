@@ -14,10 +14,13 @@ const fetchRequest = async (body, url, method) => {
     const resp = await fetch(`${baseURL}${url}`, options)
     const json = await resp.json()
 
-    return json
+    if (json?.error) {
+      return { response: null, error: json }
+    }
+    return { response: json, error: null }
   } catch (error) {
-    console.log(error)
-    return { error }
+    console.error(error)
+    return { response: null, error }
   }
 }
 

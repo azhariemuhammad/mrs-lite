@@ -56,6 +56,7 @@ const PatientList = ({ loading }) => {
         action={handleOnClick}
         withToolbar={false}
         loading={loading}
+        actionText="Buat kunjungan"
       />
       <ModalCreateVisit
         handleClose={handleSetOpenModal}
