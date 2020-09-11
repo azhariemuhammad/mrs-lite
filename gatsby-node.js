@@ -21,3 +21,17 @@ exports.onCreateWebpackConfig = ({ actions, stage }) => {
     }
   })
 }
+
+exports.onCreatePage = async ({ page, actions }) => {
+  const { createPage } = actions
+
+  // page.matchPath is a special key that's used for matching pages
+  // only on the client.
+  if (page.path.match(/^\/patient/)) {
+    // eslint-disable-next-line no-param-reassign
+    page.matchPath = '/patient/*'
+
+    // Update the page.
+    createPage(page)
+  }
+}

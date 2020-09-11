@@ -21,7 +21,7 @@ const categories = [
     children: [
       { id: 'Tambah Pasien Baru', icon: <DnsRoundedIcon />, page: 'register' },
       { id: 'Register Pasien Lama', icon: <DnsRoundedIcon />, page: 'visits' },
-      { id: 'List Pasien', icon: <PeopleIcon />, page: 'patient-list' },
+      { id: 'List Pasien', icon: <PeopleIcon />, page: 'patient' },
       { id: 'Vitals sign', icon: <PeopleIcon />, page: 'vitals' }
     ]
   }
