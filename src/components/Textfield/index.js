@@ -12,11 +12,13 @@ const Textfield = ({
   control,
   errors,
   required,
-  label
+  label,
+  width,
+  inputProps
 }) => {
   const error = errors?.[inputName]
   const isError = typeof error !== 'undefined'
-  const classes = useStyles({ isError })
+  const classes = useStyles({ isError, width })
   return (
     <div className={classes.flex}>
       <div className={classes.leftSide}>{label}</div>
@@ -29,7 +31,8 @@ const Textfield = ({
             type={type}
             InputProps={{
               disableUnderline: true,
-              className: classes.textInput
+              className: classes.textInput,
+              ...inputProps
             }}
             error={isError}
             helperText={error?.message}
@@ -48,17 +51,21 @@ Textfield.defaultProps = {
   defaultValue: '',
   fullWidth: true,
   required: false,
-  type: 'text'
+  type: 'text',
+  inputProps: {},
+  width: ''
 }
 Textfield.propTypes = {
   control: shape({}).isRequired,
   defaultValue: string,
   errors: shape({}).isRequired,
   fullWidth: bool,
+  inputProps: shape({}),
   inputName: string.isRequired,
   label: string.isRequired,
   required: bool,
-  type: string
+  type: string,
+  width: string
 }
 
 export default memo(Textfield)

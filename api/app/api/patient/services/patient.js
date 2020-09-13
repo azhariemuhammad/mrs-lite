@@ -9,7 +9,8 @@ const column = [
   'p.street_name',
   'p.ktp_id',
   'p.phone',
-  'mr.mr_code'
+  'mr.mr_code',
+  'mr.id as mr_id'
 ]
 
 module.exports = {

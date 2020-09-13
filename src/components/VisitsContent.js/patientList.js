@@ -9,7 +9,6 @@ const PatientList = ({ loading }) => {
   const [openModal, setOpenModal] = useState(false)
   const [selectedPatient, setSelectedPatient] = useState({})
   const { searchedPatient } = useContext(PatientsContext)
-
   const headCells = [
     {
       id: 'medRecNum',
@@ -41,6 +40,10 @@ const PatientList = ({ loading }) => {
   const tableCellsKey = ['medRecoredNumber', 'name', 'dob', 'gender', 'address']
 
   const handleSetOpenModal = () => {
+    if (openModal) {
+      setSelectedPatient({})
+    }
+
     setOpenModal(!openModal)
   }
   const handleOnClick = e => {
@@ -58,11 +61,13 @@ const PatientList = ({ loading }) => {
         loading={loading}
         actionText="Buat kunjungan"
       />
-      <ModalCreateVisit
-        handleClose={handleSetOpenModal}
-        patientInfo={selectedPatient}
-        open={openModal}
-      />
+      {Object.keys(selectedPatient).length > 0 && (
+        <ModalCreateVisit
+          handleClose={handleSetOpenModal}
+          patientInfo={selectedPatient}
+          open={openModal}
+        />
+      )}
     </>
   )
 }

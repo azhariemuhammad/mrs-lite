@@ -67,7 +67,6 @@ const FormRegisterPatient = () => {
       department,
       staff_provider
     } = data
-    console.log({ data })
     const sexString = registerNewPatient.sex.toLowerCase()
     const sex = SEX.findIndex(item => item === sexString)
     const DOB = date_of_birth ? new Date(date_of_birth) : new Date()
@@ -100,6 +99,7 @@ const FormRegisterPatient = () => {
       const { response, error } = await handleRegisterPatients(newDataPatient)
       if (!error) {
         newDataVisit.patient = response.id
+        newDataVisit.mr_code = response.mr_code
         const { error: errorVisit } = await handleCreateVisits(newDataVisit)
         if (errorVisit) {
           showToaster({ text: 'Gagal membuat data visit', error: true })

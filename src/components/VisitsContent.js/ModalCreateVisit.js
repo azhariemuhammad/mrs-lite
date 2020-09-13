@@ -98,7 +98,8 @@ const ModalCreateVisit = ({ handleClose, open, patientInfo }) => {
       department: parseInt(department, 10),
       payer: parseInt(payer, 10),
       date_visit: new Date().toISOString(),
-      patient: patientInfo?.id,
+      patient: patientInfo?.id || 0,
+      mr_code_id: patientInfo.medRecoredId,
       chief_complain
     }
     try {

@@ -8,7 +8,7 @@ export const useStyles = makeStyles({
     borderRadius: '8px',
     height: '40px',
     padding: '8px 12px',
-    width: '100%'
+    width: `${props.width ? props.width : '100%'}`
   }),
   flex: {
     display: 'flex',

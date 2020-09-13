@@ -4,7 +4,6 @@ export const normalizePatient = data => {
   if (data.length < 1) return []
 
   const normalized = data.map(item => {
-    console.log(item)
     return {
       id: item.id,
       name: `${item?.first_name || ''} ${item?.last_name || ''}`,
@@ -13,7 +12,8 @@ export const normalizePatient = data => {
       address: item.street_name,
       city: item.city,
       phoneNumber: item.phone,
-      medRecoredNumber: item.mr_code
+      medRecoredNumber: item.mr_code,
+      medRecoredId: item.mr_id
     }
   })
 
