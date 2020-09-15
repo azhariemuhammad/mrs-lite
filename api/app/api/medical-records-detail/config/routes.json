@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/medical-records-by-visit/:id",
+      "handler": "medical-records-detail.getByVisitId",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/medical-records-details/:id",
       "handler": "medical-records-detail.findOne",
       "config": {

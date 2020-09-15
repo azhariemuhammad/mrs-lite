@@ -76,7 +76,22 @@ const PatientListCard = () => {
     handleSetOpenModal()
   }
 
-  const { name, gender, dob, poli, staffId, visitDate, payer } = selectedPatient
+  const {
+    name,
+    gender,
+    dob,
+    poli,
+    staffId,
+    visitDate,
+    payer,
+    id
+  } = selectedPatient
+
+  const actions = [
+    { text: 'Lihat', id: 1, onActionClick: handleOnClick },
+    { text: 'Ubah', id: 2, onActionClick: () => console.log('Ubah') },
+    { text: 'Hapus', id: 2, onActionClick: () => console.log('Hapus') }
+  ]
   return (
     <>
       <CustomTable
@@ -85,6 +100,8 @@ const PatientListCard = () => {
         tableCellsKey={tableCellsKey}
         action={handleOnClick}
         actionText="Lihat"
+        actions={actions}
+        dropdown
       />
       <ModalPreviewPatient
         handleClose={handleSetOpenModal}
@@ -97,6 +114,7 @@ const PatientListCard = () => {
         staffId={staffId}
         visitDate={visitDate}
         payer={payer}
+        visitId={id}
       />
     </>
   )

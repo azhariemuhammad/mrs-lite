@@ -2,8 +2,7 @@ module.exports = {
   add: async values => {
     return strapi.query('visit').create(values)
   },
-  getAll: async filters => {
-    console.log({ filters })
+  getAll: async () => {
     const column = [
       'v.id',
       'v.department',

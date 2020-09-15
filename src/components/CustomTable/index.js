@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button'
 import LoaderCircle from 'components/LoaderCircle'
 import EnhancedTableToolbar from './EnhancedTableToolbar'
 import EnhancedTableHead from './EnhancedTableHead'
+import DropdownActions from './DropdownAction'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,7 +58,9 @@ const CustomTable = ({
   action,
   withToolbar,
   loading,
-  actionText
+  actionText,
+  actions,
+  dropdown
 }) => {
   const classes = useStyles()
   const [selected, setSelected] = useState([])
@@ -65,7 +68,6 @@ const CustomTable = ({
   const [orderBy, setOrderBy] = useState('calories')
   const [dense, setDense] = useState(false)
   const [actionMenu, setActionMenu] = useState('Atur')
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -120,13 +122,21 @@ const CustomTable = ({
                         </TableCell>
                       ))}
                       <TableCell>
-                        <Button
-                          variant="outlined"
-                          color="primary"
-                          onClick={() => action(row)}
-                        >
-                          {actionText}
-                        </Button>
+                        {!dropdown ? (
+                          <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={() => action(row)}
+                          >
+                            {actionText}
+                          </Button>
+                        ) : (
+                          <DropdownActions
+                            items={actions}
+                            selectedItem={row}
+                            placeholder="Atur"
+                          />
+                        )}
                       </TableCell>
                     </TableRow>
                   )
@@ -143,11 +153,13 @@ const CustomTable = ({
 CustomTable.defaultProps = {
   actionText: '',
   loading: false,
-  withToolbar: true
+  withToolbar: true,
+  dropdown: false
 }
 CustomTable.propTypes = {
   actionText: string,
   dataTable: arrayOf({}).isRequired,
+  dropdown: bool,
   headCells: arrayOf({}).isRequired,
   tableCellsKey: arrayOf({}).isRequired,
   action: func.isRequired,

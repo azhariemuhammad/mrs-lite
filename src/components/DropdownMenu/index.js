@@ -4,7 +4,7 @@ import { string, arrayOf, shape, number } from 'prop-types'
 import { useStyles } from './styles'
 
 const DropdownMenu = React.forwardRef(
-  ({ item, placeholder, name, fieldName }, ref) => {
+  ({ item, placeholder, name, fieldName }, ref = undefined) => {
     const classes = useStyles()
     return (
       <div className={classes.flex}>

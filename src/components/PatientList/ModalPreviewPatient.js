@@ -1,5 +1,5 @@
-import React, { useMemo, useContext } from 'react'
-import { bool, func, string } from 'prop-types'
+import React, { useMemo, useContext, useEffect, useState } from 'react'
+import { bool, func, string, number } from 'prop-types'
 import dayjs from 'dayjs'
 import 'dayjs/locale/id'
 import { makeStyles } from '@material-ui/core/styles'
@@ -9,6 +9,8 @@ import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 import PersonIcon from '@material-ui/icons/Person'
 import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
+// import { MedicalRecordsDetailContext } from 'context/MedicalRecordsDetail'
+import fetchRequest from 'helpers/fetchRequest'
 import { calculateAge } from 'helpers/calculateAge'
 
 const useStyles = makeStyles(theme => ({
@@ -61,14 +63,35 @@ const ModalPreviewPatient = ({
   poli,
   visitDate,
   payer,
-  staffId
+  staffId,
+  visitId
 }) => {
   const formatVisitDate = dayjs(visitDate || Date.now())
     .locale('id')
     .format('dddd, DD-MM -YYYY')
 
   const classes = useStyles()
+  const [mrd, setMrd] = useState({})
   const { staffProviders } = useContext(MedicalRecordsContext)
+
+  useEffect(() => {
+    async function getMedicalRecordByVisitId() {
+      const { response, error } = await fetchRequest(
+        {},
+        `medical-records-by-visit/${visitId}`,
+        'GET'
+      )
+      if (error) {
+        setMrd({})
+        return
+      }
+      if (response.length) {
+        setMrd(response?.[0])
+      }
+    }
+
+    getMedicalRecordByVisitId()
+  }, [visitId])
 
   const getStaffProvider = useMemo(() => {
     if (staffProviders.length && staffId) {
@@ -144,6 +167,25 @@ const ModalPreviewPatient = ({
                   <span>Tanggal Kunjungan</span>
                   <span>{formatVisitDate}</span>
                 </div>
+                <div className={classes.gridColumns}>
+                  <span>Tinggi Badan</span>
+                  <span>{mrd.height ? `${mrd.height}cm` : '-'}</span>
+
+                  <span>Berat Badan</span>
+                  <span>{mrd.weight ? `${mrd.weight}kg` : '-'}</span>
+
+                  <span>Sistole</span>
+                  <span>{mrd.sistole ? `${mrd.sistole}mmHg` : '-'}</span>
+
+                  <span>Diastole</span>
+                  <span>{mrd.diastole ? `${mrd.diastole}mmHg` : '-'}</span>
+
+                  <span>Icd</span>
+                  <span>{mrd.code || '-'}</span>
+
+                  <span>Diagnosa</span>
+                  <span>{mrd.name || '-'}</span>
+                </div>
               </div>
             </Paper>
           </div>
@@ -162,7 +204,8 @@ ModalPreviewPatient.propTypes = {
   poli: string.isRequired,
   staffId: string.isRequired,
   payer: string.isRequired,
-  visitDate: string.isRequired
+  visitDate: string.isRequired,
+  visitId: number.isRequired
 }
 
 export default ModalPreviewPatient
