@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { node } from 'prop-types'
 
+import { useAuth } from 'context/AuthContext'
 import useFetch from '../hooks/useFetch'
 import { normalizedStaffProviders } from '../helpers/normalizedStaffProviders'
 import fetchRequest from '../helpers/fetchRequest'
@@ -8,6 +9,7 @@ import fetchRequest from '../helpers/fetchRequest'
 export const MedicalRecordsContext = React.createContext()
 
 export const MedicalRecordsProvider = ({ children }) => {
+  const { getToken } = useAuth()
   const { response: responseDepartment, error: errorDepartment } = useFetch(
     'departments',
     'GET',
@@ -33,13 +35,13 @@ export const MedicalRecordsProvider = ({ children }) => {
 
   const handleRegisterPatients = data => {
     const body = JSON.stringify(data)
-    const res = fetchRequest(body, 'patients', 'POST')
+    const res = fetchRequest(body, 'patients', 'POST', getToken())
     return res
   }
 
   const handleCreateVisits = data => {
     const body = JSON.stringify(data)
-    const res = fetchRequest(body, 'visits', 'POST')
+    const res = fetchRequest(body, 'visits', 'POST', getToken())
     return res
   }
 

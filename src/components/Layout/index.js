@@ -9,7 +9,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Hidden from '@material-ui/core/Hidden'
 import Navigator from 'components/Navigator'
 import Header from 'components/Header'
-import { ToasterProvider } from 'context/ToasterContext'
+import Toaster from 'components/Toaster'
 
 let theme = createMuiTheme({
   typography: {
@@ -157,34 +157,33 @@ function Layout({ location, title, children, classes }) {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <ToasterProvider>
-        <div className={classes.root}>
-          <CssBaseline />
-          <nav className={classes.drawer}>
-            <Hidden smUp implementation="js">
-              <Navigator
-                PaperProps={{ style: { width: drawerWidth } }}
-                variant="temporary"
-                open={mobileOpen}
-                onClose={() => setMobileOpen(!mobileOpen)}
-              />
-            </Hidden>
-            <Hidden xsDown implementation="css">
-              <Navigator
-                PaperProps={{ style: { width: drawerWidth } }}
-                location={location}
-              />
-            </Hidden>
-          </nav>
-          <div className={classes.appContent}>
-            <Header
-              onDrawerToggle={() => setMobileOpen(!mobileOpen)}
-              title={title}
+      <div className={classes.root}>
+        <CssBaseline />
+        <nav className={classes.drawer}>
+          <Hidden smUp implementation="js">
+            <Navigator
+              PaperProps={{ style: { width: drawerWidth } }}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={() => setMobileOpen(!mobileOpen)}
             />
-            <main className={classes.mainContent}>{children}</main>
-          </div>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Navigator
+              PaperProps={{ style: { width: drawerWidth } }}
+              location={location}
+            />
+          </Hidden>
+        </nav>
+        <div className={classes.appContent}>
+          <Header
+            onDrawerToggle={() => setMobileOpen(!mobileOpen)}
+            title={title}
+          />
+          <main className={classes.mainContent}>{children}</main>
         </div>
-      </ToasterProvider>
+      </div>
+      <Toaster />
     </MuiThemeProvider>
   )
 }

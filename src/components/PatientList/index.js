@@ -17,7 +17,7 @@ const PatientList = () => {
           className={mrsHeading}
           gutterBottom
         >
-          Register Pasien
+          Kunjungan pasien hari ini
         </Typography>
         <PatientListCard />
       </Paper>

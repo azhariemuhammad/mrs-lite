@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from 'react'
-
+import { navigate } from '@reach/router'
 import CustomTable from 'components/CustomTable'
 import { normalizedVisits } from 'helpers/normalizedVisits'
 import fetchRequest from 'helpers/fetchRequest'
+import { useAuth } from 'context/AuthContext'
 import ModalPreviewPatient from './ModalPreviewPatient'
 
 const PatientListCard = () => {
   const [openModal, setOpenModal] = useState(false)
+  const { getToken } = useAuth()
   const [visits, setVisits] = useState([])
   const [selectedPatient, setSelectedPatient] = useState({})
 
   useEffect(() => {
     async function getVisits() {
-      const { response, error } = await fetchRequest({}, 'all-visits', 'GET')
+      const { response, error } = await fetchRequest(
+        {},
+        'all-visits',
+        'GET',
+        getToken()
+      )
       if (error) {
         setVisits([])
         return
@@ -76,6 +83,11 @@ const PatientListCard = () => {
     handleSetOpenModal()
   }
 
+  const handleExamination = patient => {
+    const visitId = patient.id
+    navigate(`/app/patient-info/${visitId}`)
+  }
+
   const {
     name,
     gender,
@@ -89,8 +101,9 @@ const PatientListCard = () => {
 
   const actions = [
     { text: 'Lihat', id: 1, onActionClick: handleOnClick },
-    { text: 'Ubah', id: 2, onActionClick: () => console.log('Ubah') },
-    { text: 'Hapus', id: 2, onActionClick: () => console.log('Hapus') }
+    { text: 'Periksa', id: 2, onActionClick: handleExamination },
+    { text: 'Ubah', id: 3, onActionClick: () => console.log('Ubah') },
+    { text: 'Hapus', id: 4, onActionClick: () => console.log('Hapus') }
   ]
   return (
     <>

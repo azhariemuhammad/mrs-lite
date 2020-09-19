@@ -1,11 +1,10 @@
 const baseURL = process.env.GATSBY_API_URL || 'http://localhost:1337/'
 
-const fetchRequest = async (body, url, method) => {
+const fetchRequest = async (body, url, method, token) => {
   const options = {
     headers: {
       'Content-Type': 'application/json',
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTk5MzgxMDk4LCJleHAiOjE2MDE5NzMwOTh9.HoT9LcNgKIVLQASkVE7oW82Iamma2EYxKle9A49D9Kk'
+      Authorization: token ? `Bearer ${token}` : ''
     },
     ...(Object.keys(body).length && { body }),
     method

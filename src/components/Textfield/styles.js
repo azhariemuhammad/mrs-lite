@@ -15,7 +15,7 @@ export const useStyles = makeStyles({
     margin: '0 0 16px 0',
     justifyContent: 'space-between'
   },
-  leftSide: {
+  label: {
     width: '180px',
     color: 'rgba(0, 0, 0, 0.54)',
     fontSize: '0.85rem',

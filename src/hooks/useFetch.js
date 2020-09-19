@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react'
+import { useCookies } from 'react-cookie'
 
 const baseURL = process.env.GATSBY_API_URL || 'http://localhost:1337/'
 console.log({ baseURL })
 
 const useFetch = (url, method, opt) => {
+  const [cookies] = useCookies()
   const [response, setResponse] = React.useState(null)
   const [error, setError] = React.useState(null)
+  const token = `Bearer ${cookies['MRS-TOKEN'] || ''}`
   useEffect(() => {
     const fetchData = async () => {
       const options = {
         method,
         headers: {
           'Content-Type': 'application/json',
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTk5MzgyNzU1LCJleHAiOjE2MDE5NzQ3NTV9.4fyMok3jY7YqgXePL0MPMN4_c5dGivTY8wundDM7a8o'
+          Authorization: token
         },
         ...opt
       }

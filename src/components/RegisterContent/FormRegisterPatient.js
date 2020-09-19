@@ -118,7 +118,7 @@ const FormRegisterPatient = () => {
     await handlePostData(data)
     setOnSaveLoading(false)
     reset()
-    navigate('/patient-list/')
+    navigate('/app/patient')
   }
 
   const handleClickOnSaveAndAddNew = async data => {

@@ -12,6 +12,7 @@ import { MedicalRecordsContext } from 'context/MedicalRecordsContext'
 // import { MedicalRecordsDetailContext } from 'context/MedicalRecordsDetail'
 import fetchRequest from 'helpers/fetchRequest'
 import { calculateAge } from 'helpers/calculateAge'
+import { useAuth } from 'context/AuthContext'
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -66,6 +67,7 @@ const ModalPreviewPatient = ({
   staffId,
   visitId
 }) => {
+  const { getToken } = useAuth()
   const formatVisitDate = dayjs(visitDate || Date.now())
     .locale('id')
     .format('dddd, DD-MM -YYYY')
@@ -79,7 +81,8 @@ const ModalPreviewPatient = ({
       const { response, error } = await fetchRequest(
         {},
         `medical-records-by-visit/${visitId}`,
-        'GET'
+        'GET',
+        getToken()
       )
       if (error) {
         setMrd({})

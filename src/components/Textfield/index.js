@@ -14,14 +14,15 @@ const Textfield = ({
   required,
   label,
   width,
-  inputProps
+  inputProps,
+  className
 }) => {
   const error = errors?.[inputName]
   const isError = typeof error !== 'undefined'
   const classes = useStyles({ isError, width })
   return (
-    <div className={classes.flex}>
-      <div className={classes.leftSide}>{label}</div>
+    <div className={`${classes.flex} ${className}`}>
+      <div className={classes.label}>{label}</div>
       <Controller
         control={control}
         name={inputName}
@@ -48,6 +49,7 @@ const Textfield = ({
 }
 
 Textfield.defaultProps = {
+  className: '',
   defaultValue: '',
   fullWidth: true,
   required: false,
@@ -56,6 +58,7 @@ Textfield.defaultProps = {
   width: ''
 }
 Textfield.propTypes = {
+  className: string,
   control: shape({}).isRequired,
   defaultValue: string,
   errors: shape({}).isRequired,
