@@ -96,7 +96,8 @@ const PatientListCard = () => {
     staffId,
     visitDate,
     payer,
-    id
+    id,
+    hoh
   } = selectedPatient
 
   const actions = [
@@ -116,19 +117,22 @@ const PatientListCard = () => {
         actions={actions}
         dropdown
       />
-      <ModalPreviewPatient
-        handleClose={handleSetOpenModal}
-        open={openModal}
-        patientInfo={selectedPatient}
-        name={name}
-        gender={gender}
-        dob={dob}
-        poli={poli}
-        staffId={staffId}
-        visitDate={visitDate}
-        payer={payer}
-        visitId={id}
-      />
+      {Object.keys(selectedPatient).length > 0 && (
+        <ModalPreviewPatient
+          handleClose={handleSetOpenModal}
+          open={openModal}
+          patientInfo={selectedPatient}
+          name={name}
+          gender={gender}
+          dob={dob}
+          poli={poli}
+          staffId={staffId}
+          visitDate={visitDate}
+          payer={payer}
+          visitId={id}
+          hoh={hoh}
+        />
+      )}
     </>
   )
 }

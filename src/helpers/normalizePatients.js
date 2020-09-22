@@ -13,6 +13,7 @@ export const normalizePatient = data => {
       city: item.city,
       phoneNumber: item.phone,
       medRecoredNumber: item.mr_code,
+      headOfHousehold: item.head_of_household || '',
       medRecoredId: item.mr_id
     }
   })

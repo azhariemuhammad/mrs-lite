@@ -32,6 +32,7 @@ const FormRegisterPatient = () => {
     degree: 0,
     city: '',
     phone: '',
+    hoh: '',
     mr_code: ''
   })
 
@@ -65,7 +66,8 @@ const FormRegisterPatient = () => {
       payer,
       chief_complain,
       department,
-      staff_provider
+      staff_provider,
+      head_of_household
     } = data
     const sexString = registerNewPatient.sex.toLowerCase()
     const sex = SEX.findIndex(item => item === sexString)
@@ -83,7 +85,8 @@ const FormRegisterPatient = () => {
       date_of_birth: dateOfBirth,
       city,
       phone,
-      mr_code
+      mr_code,
+      head_of_household
     }
 
     const newDataVisit = {
@@ -94,7 +97,6 @@ const FormRegisterPatient = () => {
       date_visit: new Date().toISOString(),
       chief_complain
     }
-
     try {
       const { response, error } = await handleRegisterPatients(newDataPatient)
       if (!error) {
@@ -173,6 +175,15 @@ const FormRegisterPatient = () => {
               fullWidth
               inputName="last_name"
               required
+              errors={errors}
+              control={control}
+            />
+
+            <Textfield
+              label="Nama Kepala Rumah Tangga"
+              defaultValue={registerNewPatient.hoh}
+              fullWidth
+              inputName="head_of_household"
               errors={errors}
               control={control}
             />

@@ -65,7 +65,8 @@ const ModalPreviewPatient = ({
   visitDate,
   payer,
   staffId,
-  visitId
+  visitId,
+  hoh
 }) => {
   const { getToken } = useAuth()
   const formatVisitDate = dayjs(visitDate || Date.now())
@@ -92,8 +93,9 @@ const ModalPreviewPatient = ({
         setMrd(response?.[0])
       }
     }
-
-    getMedicalRecordByVisitId()
+    if (visitId) {
+      getMedicalRecordByVisitId()
+    }
   }, [visitId])
 
   const getStaffProvider = useMemo(() => {
@@ -144,6 +146,7 @@ const ModalPreviewPatient = ({
                   <span>{name}</span>
                   <span>{gender}</span>
                   <span>{dob ? `${dob} | ${age}` : '-'}</span>
+                  <span>{hoh && `Nama Kepala Keluarga: ${hoh}`}</span>
                 </div>
               </div>
             </Paper>
@@ -203,6 +206,7 @@ ModalPreviewPatient.propTypes = {
   open: bool.isRequired,
   name: string.isRequired,
   gender: string.isRequired,
+  hoh: string.isRequired,
   dob: string.isRequired,
   poli: string.isRequired,
   staffId: string.isRequired,

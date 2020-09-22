@@ -22,6 +22,7 @@ export const normalizedVisits = data => {
       medRecoredNumber: item.mr_code || '',
       chiefComplaint: item.chief_complain || '',
       visitDate: item.date_visit || '',
+      hoh: patient.head_of_household || '',
       staffId
     }
   })

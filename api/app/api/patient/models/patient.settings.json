@@ -45,6 +45,9 @@
     },
     "date_of_birth": {
       "type": "date"
+    },
+    "head_of_household": {
+      "type": "string"
     }
   }
 }

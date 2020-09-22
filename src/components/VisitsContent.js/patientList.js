@@ -30,6 +30,12 @@ const PatientList = ({ loading }) => {
       label: 'Jenis Kelamin'
     },
     {
+      id: 'hoh',
+      numeric: false,
+      disablePadding: false,
+      label: 'Kepala Keluarga'
+    },
+    {
       id: 'address',
       numeric: false,
       disablePadding: false,
@@ -37,7 +43,14 @@ const PatientList = ({ loading }) => {
     },
     { id: 'action', numeric: false, disablePadding: false, label: '' }
   ]
-  const tableCellsKey = ['medRecoredNumber', 'name', 'dob', 'gender', 'address']
+  const tableCellsKey = [
+    'medRecoredNumber',
+    'name',
+    'dob',
+    'gender',
+    'headOfHousehold',
+    'address'
+  ]
 
   const handleSetOpenModal = () => {
     if (openModal) {
@@ -50,6 +63,7 @@ const PatientList = ({ loading }) => {
     setSelectedPatient(e)
     handleSetOpenModal()
   }
+
   return (
     <>
       <CustomTable

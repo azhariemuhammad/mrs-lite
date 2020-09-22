@@ -9,6 +9,7 @@ const column = [
   'p.street_name',
   'p.ktp_id',
   'p.phone',
+  'p.head_of_household',
   'mr.mr_code',
   'mr.id as mr_id'
 ]
@@ -21,6 +22,9 @@ module.exports = {
     }
     if (params.ktp_id) {
       val.ktp_id = params.ktp_id
+    }
+    if (params.hoh) {
+      val.head_of_household = params.hoh
     }
     const result = await strapi
       .query('patient')
@@ -53,7 +57,8 @@ module.exports = {
       degree,
       city,
       phone,
-      date_of_birth
+      date_of_birth,
+      head_of_household
     } = values
 
     return strapi.query('patient').create({
@@ -66,7 +71,8 @@ module.exports = {
       degree,
       city,
       phone,
-      date_of_birth
+      date_of_birth,
+      head_of_household
     })
   }
 }

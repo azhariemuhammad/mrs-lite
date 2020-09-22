@@ -20,36 +20,48 @@ const VisitsForm = ({ handleSetLoading }) => {
     }
     handleSetLoading(false)
   }
+  const visitsFormField = [
+    {
+      label: 'Nama Depan',
+      required: false,
+      inputName: 'first_name',
+      defaultVal: ''
+    },
+    {
+      label: 'Nama Kepala Keluarga',
+      required: false,
+      inputName: 'hoh',
+      defaultVal: ''
+    },
+    {
+      label: 'No. KTP',
+      required: false,
+      inputName: 'ktp_id',
+      defaultVal: ''
+    },
+    {
+      label: 'No. Hp',
+      required: false,
+      inputName: 'phone',
+      defaultVal: ''
+    }
+  ]
   return (
     <>
       <div className={classes.wrapperVisits}>
         <div>Cari pasien</div>
         <div className={classes.grid}>
           <div className="gridItem">
-            <Textfield
-              label="Nama Depan"
-              defaultValue=""
-              fullWidth
-              inputName="first_name"
-              errors={errors}
-              control={control}
-            />
-            <Textfield
-              label="No. KTP"
-              defaultValue=""
-              fullWidth
-              inputName="ktp_id"
-              errors={errors}
-              control={control}
-            />
-            <Textfield
-              label="No. Ponsel"
-              defaultValue=""
-              fullWidth
-              inputName="phone"
-              errors={errors}
-              control={control}
-            />
+            {visitsFormField.map(v => (
+              <Textfield
+                label={v.label}
+                defaultValue={v.defaultVal}
+                fullWidth
+                inputName={v.inputName}
+                errors={errors}
+                control={control}
+              />
+            ))}
             <div className={classes.actionWrapper}>
               <Button
                 className={classes.actionBtn}

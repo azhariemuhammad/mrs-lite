@@ -149,6 +149,10 @@ const ModalCreateVisit = ({ handleClose, open, patientInfo }) => {
                   <span>{patientInfo.name}</span>
                   <span>{patientInfo.gender}</span>
                   <span>{patientInfo.dob}</span>
+                  <span>
+                    {patientInfo.headOfHousehold &&
+                      `Kepala Keluarga: ${patientInfo.headOfHousehold}`}
+                  </span>
                 </div>
               </div>
             </Paper>
