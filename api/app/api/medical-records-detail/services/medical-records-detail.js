@@ -6,12 +6,12 @@ module.exports = {
     const rawBuilder = strapi.connections.default.raw(
       `select 
       mrd.visit_id,
-      d.height,
-      d.weight,
-      d.sistole,
-      d.diastole,
-      d.respiratory_rate,
-      d.heart_rate,
+      mrd.height,
+      mrd.weight,
+      mrd.sistole,
+      mrd.diastole,
+      mrd.respiratory_rate,
+      mrd.heart_rate,
       i.code,
       i.name from medical_records_details as mrd
       inner join diagnoses as d

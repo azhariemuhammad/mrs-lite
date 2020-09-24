@@ -7,9 +7,8 @@ import { useAuth } from 'context/AuthContext'
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const { getToken } = useAuth()
   const { location, pageTitle } = rest
-  if (!getToken() && location.pathname !== `/app/login`) {
-    navigate('app/login')
-    return null
+  if (!getToken() && location.pathname !== `/login`) {
+    navigate('login')
   }
   return (
     <Layout location={location} title={pageTitle}>

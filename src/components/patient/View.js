@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import AddIcon from '@material-ui/icons/Add'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Textfield from 'components/Textfield'
+import DropdownMenu from 'components/DropdownMenu'
 
-import { useForm } from 'react-hook-form'
+import { useForm, useFieldArray } from 'react-hook-form'
 import { useStyles } from './styles'
 
 const View = () => {
@@ -19,10 +24,97 @@ const View = () => {
     textTitle,
     contentVal,
     tableWrapper,
-    head
+    head,
+    btnAssesment,
+    wrapperAssesment,
+    actionWrapper,
+    actionBtn
   } = useStyles()
-  const { errors, control } = useForm()
+  const { errors, control, register, reset, handleSubmit } = useForm()
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'icd'
+  })
 
+  const icdx = [
+    {
+      id: 1,
+      text: 'A15.0 | TBC paru BTA (+) tanpa biakan'
+    },
+    {
+      id: 2,
+      text: 'A01 | Tyhfus'
+    }
+  ]
+
+  useEffect(() => {
+    if (!fields.length) {
+      append(['d'])
+    }
+  }, [fields])
+
+  const formAssesment = [
+    {
+      label: 'Tinggi badan',
+      required: false,
+      inputName: 'height',
+      defaultVal: '',
+      width: '120px',
+      type: 'number',
+      inputProps: {
+        endAdornment: <InputAdornment position="end">cm</InputAdornment>
+      }
+    },
+    {
+      label: 'Berat badan',
+      required: false,
+      inputName: 'weight',
+      defaultVal: '',
+      width: '120px',
+      type: 'number',
+      inputProps: {
+        endAdornment: <InputAdornment position="end">kg</InputAdornment>
+      }
+    },
+    {
+      label: 'Sistole',
+      required: false,
+      inputName: 'sistole',
+      defaultVal: '',
+      width: '120px',
+      type: 'number',
+      inputProps: {
+        endAdornment: <InputAdornment position="end">mmHg</InputAdornment>
+      }
+    },
+    {
+      label: 'Diastole',
+      required: false,
+      inputName: 'diastole',
+      defaultVal: '',
+      width: '120px',
+      type: 'number',
+      inputProps: {
+        endAdornment: <InputAdornment position="end">mmHg</InputAdornment>
+      }
+    },
+    {
+      label: 'Anamnesa',
+      required: true,
+      inputName: 'anamnesis',
+      defaultVal: ''
+    }
+  ]
+
+  const handleAddAssesment = () => {
+    append('d')
+  }
+  const handleRemoveAssesment = () => {
+    remove(fields.length - 1)
+  }
+  const handleClickOnSave = data => {
+    console.log(data)
+  }
   return (
     <div className={container}>
       <div className={leftContent}>
@@ -81,70 +173,61 @@ const View = () => {
             <Typography variant="subtitle1" gutterBottom>
               Pemeriksaan Fisik
             </Typography>
-            <Textfield
-              label="Tinggi badan"
-              defaultValue=""
-              width="120px"
-              inputName="height"
-              type="number"
-              errors={errors}
-              control={control}
-              inputProps={{
-                endAdornment: <InputAdornment position="end">cm</InputAdornment>
-              }}
-            />
-            <Textfield
-              label="Berat badan"
-              defaultValue=""
-              inputName="weight"
-              required
-              width="120px"
-              errors={errors}
-              control={control}
-              inputProps={{
-                endAdornment: <InputAdornment position="end">kg</InputAdornment>
-              }}
-            />
-            <Typography variant="subtitle1" gutterBottom>
-              Tekanan Darah
-            </Typography>
-            <Textfield
-              label="Sistole"
-              defaultValue=""
-              width="120px"
-              inputName="sitole"
-              required
-              errors={errors}
-              control={control}
-              inputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">mmHg</InputAdornment>
-                )
-              }}
-            />
-            <Textfield
-              label="Diastole"
-              defaultValue=""
-              width="120px"
-              inputName="diastole"
-              required
-              errors={errors}
-              control={control}
-              inputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">mmHg</InputAdornment>
-                )
-              }}
-            />
-            <Textfield
-              label="Diagnosa"
-              defaultValue=""
-              fullWidth
-              inputName="diagnose"
-              required
-              errors={errors}
-              control={control}
-            />
+            {formAssesment.map(item => (
+              <Textfield
+                label={item.label}
+                defaultValue={item.defaultVal}
+                width={item?.width || ''}
+                inputName={item.inputName}
+                type={item.type || ''}
+                errors={errors}
+                control={control}
+                inputProps={item?.inputProps || {}}
+              />
+            ))}
+            <div>
+              {fields.map((_, idx) => (
+                <div className={wrapperAssesment} key={idx}>
+                  <DropdownMenu
+                    fieldName={`Asesmen ${idx > 0 ? idx + 1 : ''}`}
+                    name={`icd[${idx}].code`}
+                    ref={register({ required: true })}
+                    item={icdx}
+                    placeholder="Pilih kode penyakit"
+                  />
+                  {idx + 1 === fields.length && (
+                    <IconButton
+                      aria-label="add"
+                      onClick={handleAddAssesment}
+                      className={btnAssesment}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  )}
+                  {idx + 1 === fields.length && idx !== 0 && (
+                    <IconButton
+                      aria-label="add"
+                      onClick={handleRemoveAssesment}
+                      className={btnAssesment}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className={actionWrapper}>
+              <Button className={actionBtn} onClick={reset} variant="contained">
+                Reset
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit(handleClickOnSave)}
+              >
+                Simpan
+              </Button>
+            </div>
           </div>
         </Paper>
         <Paper className={paper} elevation={0.5}>

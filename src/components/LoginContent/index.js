@@ -21,7 +21,7 @@ const LoginContent = () => {
 
     const { error } = await login(data)
     if (!error) {
-      navigate('/patient')
+      navigate('app/patient')
     }
     setOnSubmitLoading(false)
   }

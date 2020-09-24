@@ -14,24 +14,6 @@
     },
     "medical_records_detail": {
       "model": "medical-records-detail"
-    },
-    "height": {
-      "type": "string"
-    },
-    "weight": {
-      "type": "string"
-    },
-    "sistole": {
-      "type": "string"
-    },
-    "diastole": {
-      "type": "string"
-    },
-    "respiratory_rate": {
-      "type": "string"
-    },
-    "heart_rate": {
-      "type": "string"
     }
   }
 }

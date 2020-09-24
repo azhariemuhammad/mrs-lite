@@ -308,11 +308,11 @@ const FormRegisterPatient = () => {
           />
 
           <DropdownMenu
-            fieldName="Poli Tujuan"
+            fieldName="Ruang Tujuan"
             name="department"
             ref={register({ required: true })}
             item={getItemDepartments()}
-            placeholder="Pilih Poli Tujuan"
+            placeholder="Pilih Ruang Tujuan"
           />
 
           <DropdownMenu

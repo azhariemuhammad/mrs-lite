@@ -65,5 +65,25 @@ export const useStyles = makeStyles({
   head: {
     textAlign: 'left',
     paddingBottom: '16px'
+  },
+  wrapperAssesment: {
+    display: 'flex',
+    width: '80%'
+  },
+  btnAssesment: {
+    height: '40px',
+    marginLeft: '12px'
+  },
+  actionWrapper: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end',
+    marginTop: '24px'
+  },
+  actionBtn: {
+    marginRight: '16px'
+  },
+  wrapperVisits: {
+    margin: '16px 0 32px 0'
   }
 })
