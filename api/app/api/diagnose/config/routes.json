@@ -27,7 +27,7 @@
     {
       "method": "POST",
       "path": "/diagnoses",
-      "handler": "diagnose.create",
+      "handler": "diagnose.add",
       "config": {
         "policies": []
       }
