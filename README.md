@@ -1,33 +1,23 @@
 <h1 align="center">
-    Material UI Paperbase Starter for Gatsby 🔥
+    Open Medical Records System Lite
 </h1>
 
-Create dashboards and administration tools in Gastby using [Material UI's](https://material-ui.com/) [Paperbase Premium Theme](https://github.com/mui-org/material-ui/tree/master/docs/src/pages/premium-themes/paperbase)
+This is a simple Medical Records System to help transform Community Health
+Centre or in bahasa "Puskesmas" to digitalize their system. Currently lots of
+Community Health Centre are working with paper base method. so hopefully with
+this simple application we could help them to improve their services.
 
-## 🚀 Quick start
+# Features!
 
-1.  **Create a Gatsby site.**
+-   List patient
+-   Create Visit
+-   Record patient info
 
-    Use the Gatsby CLI to create a new site, specifying the blog starter.
+# Contributing
 
-    ```sh
-    # create a new Gatsby site using the Paperbase starter
-    gatsby new my-admin-tool-starter https://github.com/willcode4food/gatsby-starter-paperbase
-    ```
+Contributions are very welcome, we can definitely use your help!
 
-1.  **Start developing.**
-
-    Navigate into your new site’s directory and start it up.
-
-    ```sh
-    cd my-admin-tool-starter/
-    gatsby develop
-    ```
-
-1.  **Open the source code and start editing!**
-
-    Your site is now running at `http://localhost:8000`!
-
-    _Note: You'll also see a second link: _`http://localhost:8000/___graphql`_. This is a tool you can use to experiment with querying your data. Learn more about using this tool in the [Gatsby tutorial](https://www.gatsbyjs.org/tutorial/part-five/#introducing-graphiql)._
-
-    Open the `my-admin-tool-starter` directory in your code editor of choice and edit `src/pages/index.js`. Save your changes and the browser will update in real time!
+Fork it ( https://github.com/azhariemuhammad/mrs-lite ) Create your feature
+branch (git checkout -b my-new-feature) Commit your changes (git commit -am 'Add
+some feature') Push to the branch (git push origin my-new-feature) Create a new
+Pull Request
